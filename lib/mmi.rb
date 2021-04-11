@@ -1,6 +1,8 @@
 require_relative 'mmi/mod_file_processor'
 
 module Mmi
+	VERSION = '0.1.0'
+	
 	MMI_CACHE_DIR = File.join(Dir.home, '.cache', 'mmi')
 	MINECRAFT_DIR = File.join(Dir.home, '.minecraft')
 	
