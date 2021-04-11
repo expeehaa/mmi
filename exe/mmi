@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+
+Bundler.require(:default)
+
+if ENV['MMI_ENV']=='dev'
+	Bundler.require(:development)
+end
+
+require_relative '../lib/mmi'
+
+if ARGV.length>0
+	file      = ARGV.first
+	content   = Psych.load_file(file)
+	processor = Mmi::ModFileProcessor.new(content)
+	
+	processor.install
+else
+	puts 'No file given.'
+	Kernel.exit 1
+end
