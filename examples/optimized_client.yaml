@@ -1,3 +1,4 @@
+version: 0.1.0
 profile_dir: tmp/examples/optimized_client
 modloader:
   name: fabric

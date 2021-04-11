@@ -24,6 +24,10 @@ module Mmi
 		puts text
 	end
 	
+	def self.warn(text)
+		puts text
+	end
+	
 	def self.fail!(text)
 		STDERR.puts text
 		Kernel.exit 1
