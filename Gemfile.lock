@@ -13,6 +13,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     psych (3.3.1)
+    semver2 (3.4.2)
     stringio (3.0.0)
     time (0.1.0)
       date
@@ -26,6 +27,7 @@ DEPENDENCIES
   open-uri
   pry
   psych
+  semver2
 
 BUNDLED WITH
    2.2.3
