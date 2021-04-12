@@ -3,12 +3,16 @@ require_relative 'assets_processor'
 
 module Mmi
 	class ModFileProcessor
+		attr_reader :content
+		
 		attr_reader :version
 		attr_reader :profile_dir
 		attr_reader :modloader
 		attr_reader :assets
 		
 		def initialize(content)
+			@content = content
+			
 			@version     = content['version'    ]
 			@profile_dir = content['profile_dir'] || Mmi.minecraft_dir
 			@modloader   = content['modloader'  ]

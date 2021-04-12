@@ -1,12 +1,16 @@
 module Mmi
 	module Modloaders
 		class FabricProcessor
+			attr_reader :options
+			
 			attr_reader :version
 			attr_reader :install_type
 			attr_reader :mcversion
 			attr_reader :install_dir
 			
 			def initialize(options)
+				@options = options
+				
 				@version      = options['version'          ]
 				@install_type = options['install_type'     ]
 				@mcversion    = options['minecraft_version']

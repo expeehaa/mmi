@@ -1,12 +1,16 @@
 module Mmi
 	module Sources
 		class GithubSource
+			attr_reader :options
+			
 			attr_reader :repository
 			attr_reader :release
 			attr_reader :file
 			attr_reader :install_dir
 			
 			def initialize(options)
+				@options = options
+				
 				@repository  = options['repository' ]
 				@release     = options['release'    ]
 				@file        = options['file'       ]
