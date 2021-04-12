@@ -1,3 +1,4 @@
+require_relative 'modloaders/none_processor'
 require_relative 'modloaders/fabric_processor'
 require_relative 'assets_processor'
 
@@ -46,6 +47,7 @@ module Mmi
 				
 				case name
 				when 'none'
+					Modloaders::NoneProcessor.new(self.modloader).install
 				when 'fabric'
 					Modloaders::FabricProcessor.new(self.modloader).install
 				else
