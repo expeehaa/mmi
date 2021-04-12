@@ -30,6 +30,10 @@ if ARGV.length>0
 	case action
 	when :install
 		processor(file).install
+	when :validate
+		processor(file)
+		
+		puts 'File is valid.'
 	else
 		STDERR.puts "Unknown action: #{action_param.inspect}."
 		Kernel.exit 1
