@@ -8,6 +8,7 @@ gem 'psych'
 gem 'open-uri'
 gem 'fileutils'
 gem 'semver2', require: 'semver'
+gem 'digest'
 
 group :development do
 	gem 'pry'
