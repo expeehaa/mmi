@@ -82,6 +82,10 @@ module Mmi
 					Mmi.fail! %Q{Error when requesting asset.\n#{e.inspect}}
 				end
 			end
+			
+			def display_name
+				repository_url
+			end
 		end
 	end
 end
