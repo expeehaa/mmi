@@ -12,7 +12,7 @@ end
 require_relative '../lib/mmi'
 
 if ARGV.length>0
-	file      = ARGV.first
+	file      = ARGV.shift
 	content   = Psych.load_file(file)
 	processor = Mmi::ModFileProcessor.new(content)
 	
