@@ -28,19 +28,19 @@ module Mmi
 								if self.install_dir
 									# Pass.
 								else
-									Mmi.fail! 'Missing "source.install_dir" from asset.'
+									raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
 								end
 							else
-								Mmi.fail! 'Missing "source.file" from asset.'
+								raise Mmi::MissingAttributeError, 'Missing "source.file" from asset.'
 							end
 						else
-							Mmi.fail! 'Missing "source.release" from asset.'
+							raise Mmi::MissingAttributeError, 'Missing "source.release" from asset.'
 						end
 					else
-						Mmi.fail! %Q{Invalid "source.repository": #{repository.inspect} cannot be interpreted.}
+						raise Mmi::InvalidAttributeError, %Q{Invalid "source.repository": #{repository.inspect} cannot be interpreted.}
 					end
 				else
-					Mmi.fail! 'Missing "source.repository" from asset.'
+					raise Mmi::MissingAttributeError, 'Missing "source.repository" from asset.'
 				end
 			end
 			

@@ -21,14 +21,14 @@ module Mmi
 						when 'github'
 							Source::Github.new(source)
 						else
-							Mmi.fail! %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
+							raise Mmi::InvalidAttributeError, %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
 						end
 					else
-						Mmi.fail! %Q{Missing "source" in asset #{index.inspect}.}
+						raise Mmi::MissingAttributeError, %Q{Missing "source" in asset #{index.inspect}.}
 					end
 				end
 			else
-				Mmi.fail! %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
+				raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
 			end
 		end
 		

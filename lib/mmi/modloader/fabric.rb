@@ -22,16 +22,16 @@ module Mmi
 							if self.mcversion
 								# Pass.
 							else
-								Mmi.fail! 'Missing "modloader.minecraft_version".'
+								raise Mmi::MissingAttributeError, 'Missing "modloader.minecraft_version".'
 							end
 						else
-							Mmi.fail! %Q{Invalid "modloader.install_type". Expecting "client" or "server", got #{self.install_type.inspect}.}
+							raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.install_type". Expecting "client" or "server", got #{self.install_type.inspect}.}
 						end
 					else
-						Mmi.fail! 'Missing "modloader.install_type".'
+						raise Mmi::MissingAttributeError, 'Missing "modloader.install_type".'
 					end
 				else
-					Mmi.fail! 'Missing "modloader.version".'
+					raise Mmi::MissingAttributeError, 'Missing "modloader.version".'
 				end
 			end
 			

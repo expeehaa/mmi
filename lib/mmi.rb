@@ -14,6 +14,10 @@ module Mmi
 		MINECRAFT_DIR
 	end
 	
+	class ValidationError < StandardError; end
+	class MissingAttributeError < ValidationError; end
+	class InvalidAttributeError < ValidationError; end
+	
 	def self.debug(text)
 		if ENV['MMI_ENV']=='dev'
 			puts text

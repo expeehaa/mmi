@@ -35,7 +35,7 @@ module Mmi
 						when 'fabric'
 							Modloader::Fabric.new(ml)
 						else
-							Mmi.fail! %Q{Unkown modloader #{ml['name'].inspect}.}
+							raise Mmi::InvalidAttributeError, %Q{Unkown modloader #{ml['name'].inspect}.}
 						end
 					else
 						Modloader::None.new
@@ -43,10 +43,10 @@ module Mmi
 					
 					@assets = AssetsProcessor.new(self.profile_dir, content['assets'])
 				else
-					Mmi.fail! %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
+					raise Mmi::InvalidAttributeError, %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
 				end
 			else
-				Mmi.fail! 'Missing "version".'
+				raise Mmi::MissingAttributeError, 'Missing "version".'
 			end
 		end
 		
