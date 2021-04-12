@@ -10,7 +10,7 @@ module Mmi
 				@version      = options['version'          ]
 				@install_type = options['install_type'     ]
 				@mcversion    = options['minecraft_version']
-				@install_dir  = options['install_dir'      ] || File.join(Dir.home, '.minecraft')
+				@install_dir  = options['install_dir'      ] || Mmi.minecraft_dir
 				
 				if self.version
 					if self.install_type
