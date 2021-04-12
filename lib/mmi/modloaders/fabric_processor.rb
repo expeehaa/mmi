@@ -39,6 +39,10 @@ module Mmi
 				"https://maven.fabricmc.net/net/fabricmc/fabric-installer/#{self.version}/fabric-installer-#{self.version}.jar"
 			end
 			
+			def installer_sha512sum_uri
+				"#{installer_uri}.sha512"
+			end
+			
 			def installer_path
 				File.join(Mmi.cache_dir, "fabric-installer-#{self.version}.jar")
 			end
@@ -53,9 +57,23 @@ module Mmi
 				begin
 					FileUtils.mkdir_p(Mmi.cache_dir)
 					
-					stream = URI.open(installer_uri)
+					expected_hexdigest = URI.open(installer_sha512sum_uri).read
 					
-					IO.copy_stream(stream, installer_path)
+					if !File.exists?(installer_path) || expected_hexdigest != Digest::SHA512.hexdigest(File.read(installer_path))
+						stream = URI.open(installer_uri)
+						
+						IO.copy_stream(stream, installer_path)
+						
+						actual_hexdigest = Digest::SHA512.hexdigest(File.read(installer_path))
+						
+						if expected_hexdigest == actual_hexdigest
+							# Pass.
+						else
+							Mmi.fail! "Expected fabric installer to have SHA512 sum #{expected_hexdigest.inspect} but received #{actual_hexdigest.inspect}."
+						end
+					else
+						Mmi.info 'Using cached fabric-installer.'
+					end
 				rescue OpenURI::HTTPError => e
 					Mmi.fail! %Q{Error when requesting fabric installer. Maybe "modloader.version" == #{version.inspect} is invalid.\n#{e.inspect}}
 				end
