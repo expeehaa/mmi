@@ -51,14 +51,65 @@ module Mmi
 							end
 						end
 						
+						handler.option('add' , &:to_sym)
 						handler.option('quit', &:to_sym)
 					end
 					
 					case choice
 					when :quit
 						break
+					when :add
+						add_asset
 					else
 						update_asset(choice)
+					end
+				end
+			end
+			
+			def add_asset
+				source_type = CLI::UI::Prompt.ask('Choose a source type.') do |handler|
+					[
+						'github',
+					].each do |type|
+						handler.option(type, &:to_sym)
+					end
+					
+					handler.option('quit', &:to_sym)
+				end
+				
+				case source_type
+				when :quit
+					false
+				when :github
+					options = {
+						'source' => {
+							'type'     => 'github',
+							'asset_id' => 0,
+						}
+					}
+					
+					options['source']['owner'      ] = CLI::UI::Prompt.ask('Who is the owner of the source repository?').strip
+					options['source']['repo'       ] = CLI::UI::Prompt.ask('What is the name of the source repository?').strip
+					options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+					options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+						filename == '' ? nil : filename
+					end
+					
+					options['source'].compact!
+					
+					source = Mmi::Source::Github.new(options['source'])
+					
+					if update_asset(source)
+						self.processor.content['assets'] ||= []
+						
+						self.processor.content['assets'].push(options)
+						self.processor.assets.assets.push(source)
+						
+						true
+					else
+						CLI::UI.puts('Aborting asset addition. No change will be made.', color: CLI::UI::Color::RED)
+						
+						false
 					end
 				end
 			end
