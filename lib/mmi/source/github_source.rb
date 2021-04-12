@@ -1,5 +1,5 @@
 module Mmi
-	module Sources
+	module Source
 		class GithubSource
 			attr_reader :options
 			

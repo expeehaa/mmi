@@ -1,4 +1,4 @@
-require_relative 'sources/github_source'
+require_relative 'source/github_source'
 
 module Mmi
 	class AssetsProcessor
@@ -19,7 +19,7 @@ module Mmi
 						
 						case type
 						when 'github'
-							Sources::GithubSource.new(source)
+							Source::GithubSource.new(source)
 						else
 							Mmi.fail! %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
 						end
