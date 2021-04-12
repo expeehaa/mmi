@@ -11,17 +11,25 @@ end
 
 require_relative '../lib/mmi'
 
-if ARGV.length>0
-	file      = ARGV.shift
-	content   = Psych.load_file(file)
-	processor = Mmi::ModFileProcessor.new(content)
+def processor(file)
+	content = Psych.load_file(file)
 	
+	begin
+		Mmi::ModFileProcessor.new(content)
+	rescue Mmi::ValidationError => e
+		puts e
+		Kernel.exit 1
+	end
+end
+
+if ARGV.length>0
+	file         = ARGV.shift
 	action_param = ARGV.shift
 	action       = action_param.nil? ? :install : action_param.to_sym
 	
 	case action
 	when :install
-		processor.install
+		processor(file).install
 	else
 		STDERR.puts "Unknown action: #{action_param.inspect}."
 		Kernel.exit 1
