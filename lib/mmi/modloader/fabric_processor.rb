@@ -1,5 +1,5 @@
 module Mmi
-	module Modloaders
+	module Modloader
 		class FabricProcessor
 			attr_reader :options
 			
