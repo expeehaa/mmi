@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/expeehaa/cli-ui
+  revision: 9b113edbc732d10247e5a7492f257ce85383af5f
+  branch: add_jruby_compatibility
+  specs:
+    cli-ui (1.4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -54,6 +61,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cli-ui!
   digest
   fileutils
   github_api
