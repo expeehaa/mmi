@@ -7,7 +7,14 @@ module Mmi
 		
 		def initialize(profile_dir, assets)
 			@profile_dir = profile_dir
-			@assets      = assets
+			
+			assets ||= []
+			
+			if assets.is_a?(Array)
+				@assets = assets
+			else
+				Mmi.fail! %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
+			end
 		end
 		
 		def install_asset(asset, index)

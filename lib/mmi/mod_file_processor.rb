@@ -8,16 +8,15 @@ module Mmi
 		
 		attr_reader :version
 		attr_reader :profile_dir
-		attr_reader :assets
 		
 		attr_reader :modloader
+		attr_reader :assets
 		
 		def initialize(content)
 			@content = content
 			
 			@version     = content['version'    ]
 			@profile_dir = content['profile_dir'] || Mmi.minecraft_dir
-			@assets      = content['assets'     ]
 			
 			version     = SemVer.parse(self.version)
 			lib_version = SemVer.parse(Mmi::VERSION)
@@ -28,23 +27,21 @@ module Mmi
 						Mmi.warn %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}. Some features might not be supported.}
 					end
 					
-					if self.assets.nil? || self.assets.is_a?(Array)
-						ml         = content['modloader']
-						@modloader = if ml
-							case ml['name']
-							when 'none'
-								Modloaders::NoneProcessor.new(ml)
-							when 'fabric'
-								Modloaders::FabricProcessor.new(ml)
-							else
-								Mmi.fail! %Q{Unkown modloader #{ml['name'].inspect}.}
-							end
+					ml         = content['modloader']
+					@modloader = if ml
+						case ml['name']
+						when 'none'
+							Modloaders::NoneProcessor.new(ml)
+						when 'fabric'
+							Modloaders::FabricProcessor.new(ml)
 						else
-							Modloaders::NoneProcessor.new
+							Mmi.fail! %Q{Unkown modloader #{ml['name'].inspect}.}
 						end
 					else
-						Mmi.fail! %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
+						Modloaders::NoneProcessor.new
 					end
+					
+					@assets = AssetsProcessor.new(self.profile_dir, content['assets'])
 				else
 					Mmi.fail! %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
 				end
@@ -53,13 +50,9 @@ module Mmi
 			end
 		end
 		
-		def install_assets
-			AssetsProcessor.new(self.profile_dir, self.assets).install
-		end
-		
 		def install
 			self.modloader.install
-			install_assets
+			self.assets.install
 		end
 	end
 end
