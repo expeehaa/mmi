@@ -8,15 +8,15 @@ module Mmi
 		
 		attr_reader :version
 		attr_reader :profile_dir
-		attr_reader :modloader
 		attr_reader :assets
+		
+		attr_reader :modloader
 		
 		def initialize(content)
 			@content = content
 			
 			@version     = content['version'    ]
 			@profile_dir = content['profile_dir'] || Mmi.minecraft_dir
-			@modloader   = content['modloader'  ]
 			@assets      = content['assets'     ]
 			
 			version     = SemVer.parse(self.version)
@@ -29,7 +29,19 @@ module Mmi
 					end
 					
 					if self.assets.nil? || self.assets.is_a?(Array)
-						# Pass.
+						ml         = content['modloader']
+						@modloader = if ml
+							case ml['name']
+							when 'none'
+								Modloaders::NoneProcessor.new(ml)
+							when 'fabric'
+								Modloaders::FabricProcessor.new(ml)
+							else
+								Mmi.fail! %Q{Unkown modloader #{ml['name'].inspect}.}
+							end
+						else
+							Modloaders::NoneProcessor.new
+						end
 					else
 						Mmi.fail! %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
 					end
@@ -41,27 +53,12 @@ module Mmi
 			end
 		end
 		
-		def install_modloader
-			if self.modloader
-				name = self.modloader['name']
-				
-				case name
-				when 'none'
-					Modloaders::NoneProcessor.new(self.modloader).install
-				when 'fabric'
-					Modloaders::FabricProcessor.new(self.modloader).install
-				else
-					Mmi.fail! %Q{Unkown modloader #{name.inspect}.}
-				end
-			end
-		end
-		
 		def install_assets
 			AssetsProcessor.new(self.profile_dir, self.assets).install
 		end
 		
 		def install
-			install_modloader
+			self.modloader.install
 			install_assets
 		end
 	end
