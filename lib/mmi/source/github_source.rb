@@ -3,32 +3,41 @@ module Mmi
 		class GithubSource
 			attr_reader :options
 			
-			attr_reader :repository
 			attr_reader :release
 			attr_reader :file
 			attr_reader :install_dir
 			
+			attr_reader :owner
+			attr_reader :repo
+			
 			def initialize(options)
 				@options = options
 				
-				@repository  = options['repository' ]
+				repository   = options['repository' ]
 				@release     = options['release'    ]
 				@file        = options['file'       ]
 				@install_dir = options['install_dir']
 				
-				if self.repository
-					if self.release
-						if self.file
-							if self.install_dir
-								# Pass.
+				if repository
+					if m = /\A(?<owner>[^\/]+)\/(?<repo>[^\/]+)\z/.match(repository)
+						@owner = m[:owner]
+						@repo  = m[:repo ]
+						
+						if self.release
+							if self.file
+								if self.install_dir
+									# Pass.
+								else
+									Mmi.fail! 'Missing "source.install_dir" from asset.'
+								end
 							else
-								Mmi.fail! 'Missing "source.install_dir" from asset.'
+								Mmi.fail! 'Missing "source.file" from asset.'
 							end
 						else
-							Mmi.fail! 'Missing "source.file" from asset.'
+							Mmi.fail! 'Missing "source.release" from asset.'
 						end
 					else
-						Mmi.fail! 'Missing "source.release" from asset.'
+						Mmi.fail! %Q{Invalid "source.repository": #{repository.inspect} cannot be interpreted.}
 					end
 				else
 					Mmi.fail! 'Missing "source.repository" from asset.'
@@ -36,7 +45,7 @@ module Mmi
 			end
 			
 			def repository_url
-				"https://github.com/#{self.repository}"
+				"https://github.com/#{self.owner}/#{self.repo}"
 			end
 			
 			def download_url
