@@ -14,4 +14,5 @@ gem 'cli-ui', github: 'expeehaa/cli-ui', branch: 'add_jruby_compatibility'
 
 group :development do
 	gem 'pry'
+	gem 'pry-byebug', platforms: [:mri]
 end
