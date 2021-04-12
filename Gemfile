@@ -9,6 +9,7 @@ gem 'open-uri'
 gem 'fileutils'
 gem 'semver2', require: 'semver'
 gem 'digest'
+gem 'github_api'
 
 group :development do
 	gem 'pry'
