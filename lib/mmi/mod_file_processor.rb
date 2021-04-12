@@ -1,5 +1,5 @@
-require_relative 'modloader/none_processor'
-require_relative 'modloader/fabric_processor'
+require_relative 'modloader/none'
+require_relative 'modloader/fabric'
 require_relative 'assets_processor'
 
 module Mmi
@@ -31,14 +31,14 @@ module Mmi
 					@modloader = if ml
 						case ml['name']
 						when 'none'
-							Modloader::NoneProcessor.new(ml)
+							Modloader::None.new(ml)
 						when 'fabric'
-							Modloader::FabricProcessor.new(ml)
+							Modloader::Fabric.new(ml)
 						else
 							Mmi.fail! %Q{Unkown modloader #{ml['name'].inspect}.}
 						end
 					else
-						Modloader::NoneProcessor.new
+						Modloader::None.new
 					end
 					
 					@assets = AssetsProcessor.new(self.profile_dir, content['assets'])

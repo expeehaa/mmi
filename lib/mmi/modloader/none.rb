@@ -1,6 +1,6 @@
 module Mmi
 	module Modloader
-		class NoneProcessor
+		class None
 			def initialize(options=nil)
 			end
 			

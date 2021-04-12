@@ -1,6 +1,6 @@
 module Mmi
 	module Source
-		class GithubSource
+		class Github
 			attr_reader :options
 			
 			attr_reader :release
