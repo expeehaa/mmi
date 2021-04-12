@@ -10,6 +10,9 @@ if ENV['MMI_ENV']=='dev'
 end
 
 require_relative '../lib/mmi'
+require_relative '../lib/mmi/interactive'
+
+CLI::UI::StdoutRouter.enable
 
 def processor(file)
 	content = Psych.load_file(file)
@@ -34,6 +37,8 @@ if ARGV.length>0
 		processor(file)
 		
 		puts 'File is valid.'
+	when :update
+		Mmi::Interactive.update(processor(file), file)
 	else
 		STDERR.puts "Unknown action: #{action_param.inspect}."
 		Kernel.exit 1
