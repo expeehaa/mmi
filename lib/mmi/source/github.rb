@@ -7,6 +7,7 @@ module Mmi
 			attr_reader :repo
 			attr_reader :install_dir
 			
+			attr_reader :asset_id
 			attr_reader :release
 			attr_reader :file
 			
@@ -15,24 +16,29 @@ module Mmi
 				
 				@owner       = options['owner'      ]
 				@repo        = options['repo'       ]
+				@asset_id    = options['asset_id'   ]
 				@release     = options['release'    ]
 				@file        = options['file'       ]
 				@install_dir = options['install_dir']
 				
 				if self.owner
 					if self.repo
-						if self.release
-							if self.file
-								if self.install_dir
-									# Pass.
-								else
-									raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
-								end
+						if self.install_dir
+							if self.asset_id
+								# Pass.
 							else
-								raise Mmi::MissingAttributeError, 'Missing "source.file" from asset.'
+								if self.release
+									if self.file
+										# Pass.
+									else
+										raise Mmi::MissingAttributeError, 'Missing "source.file" from asset because "source.asset_id" is not provided.'
+									end
+								else
+									raise Mmi::MissingAttributeError, 'Missing "source.release" from asset because "source.asset_id" is not provided.'
+								end
 							end
 						else
-							raise Mmi::MissingAttributeError, 'Missing "source.release" from asset.'
+							raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
 						end
 					else
 						raise Mmi::MissingAttributeError, 'Missing "source.repo" from asset.'
@@ -46,13 +52,21 @@ module Mmi
 				"https://github.com/#{self.owner}/#{self.repo}"
 			end
 			
+			def cached_asset_response
+				@asset_get ||= ::Github::Client::Repos::Releases::Assets.new.get(owner: self.owner, repo: self.repo, id: self.asset_id)
+			end
+			
 			def download_url
-				"#{repository_url}/releases/download/#{release}/#{file}"
+				if self.asset_id
+					cached_asset_response.browser_download_url
+				else
+					"#{repository_url}/releases/download/#{release}/#{file}"
+				end
 			end
 			
 			def install(dir)
 				install_dir = File.expand_path(self.install_dir, dir)
-				filepath    = File.join(install_dir, self.file)
+				filepath    = File.join(install_dir, self.asset_id ? cached_asset_response.name : self.file)
 				
 				Mmi.info "Downloading #{download_url.inspect} into #{filepath.inspect}."
 				
