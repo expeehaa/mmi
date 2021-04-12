@@ -3,26 +3,24 @@ module Mmi
 		class Github
 			attr_reader :options
 			
-			attr_reader :release
-			attr_reader :file
-			attr_reader :install_dir
-			
 			attr_reader :owner
 			attr_reader :repo
+			attr_reader :install_dir
+			
+			attr_reader :release
+			attr_reader :file
 			
 			def initialize(options)
 				@options = options
 				
-				repository   = options['repository' ]
+				@owner       = options['owner'      ]
+				@repo        = options['repo'       ]
 				@release     = options['release'    ]
 				@file        = options['file'       ]
 				@install_dir = options['install_dir']
 				
-				if repository
-					if m = /\A(?<owner>[^\/]+)\/(?<repo>[^\/]+)\z/.match(repository)
-						@owner = m[:owner]
-						@repo  = m[:repo ]
-						
+				if self.owner
+					if self.repo
 						if self.release
 							if self.file
 								if self.install_dir
@@ -37,10 +35,10 @@ module Mmi
 							raise Mmi::MissingAttributeError, 'Missing "source.release" from asset.'
 						end
 					else
-						raise Mmi::InvalidAttributeError, %Q{Invalid "source.repository": #{repository.inspect} cannot be interpreted.}
+						raise Mmi::MissingAttributeError, 'Missing "source.repo" from asset.'
 					end
 				else
-					raise Mmi::MissingAttributeError, 'Missing "source.repository" from asset.'
+					raise Mmi::MissingAttributeError, 'Missing "source.owner" from asset.'
 				end
 			end
 			
