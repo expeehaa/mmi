@@ -16,7 +16,16 @@ if ARGV.length>0
 	content   = Psych.load_file(file)
 	processor = Mmi::ModFileProcessor.new(content)
 	
-	processor.install
+	action_param = ARGV.shift
+	action       = action_param.nil? ? :install : action_param.to_sym
+	
+	case action
+	when :install
+		processor.install
+	else
+		STDERR.puts "Unknown action: #{action_param.inspect}."
+		Kernel.exit 1
+	end
 else
 	puts 'No file given.'
 	Kernel.exit 1
