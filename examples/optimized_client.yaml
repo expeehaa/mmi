@@ -27,3 +27,4 @@ assets:
       release: mc1.16.3-0.1.0
       file: sodium-fabric-mc1.16.3-0.1.0.jar
       install_dir: mods
+      filename: sodium-1.16.3-0.1.0.jar

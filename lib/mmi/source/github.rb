@@ -6,6 +6,7 @@ module Mmi
 			attr_reader :owner
 			attr_reader :repo
 			attr_reader :install_dir
+			attr_reader :filename
 			
 			attr_reader :asset_id
 			attr_reader :release
@@ -20,6 +21,7 @@ module Mmi
 				@release     = options['release'    ]
 				@file        = options['file'       ]
 				@install_dir = options['install_dir']
+				@filename    = options['filename'   ]
 				
 				if self.owner
 					if self.repo
@@ -66,7 +68,7 @@ module Mmi
 			
 			def install(dir)
 				install_dir = File.expand_path(self.install_dir, dir)
-				filepath    = File.join(install_dir, self.asset_id ? cached_asset_response.name : self.file)
+				filepath    = File.join(install_dir, self.filename || (self.asset_id ? cached_asset_response.name : self.file))
 				
 				Mmi.info "Downloading #{download_url.inspect} into #{filepath.inspect}."
 				
