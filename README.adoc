@@ -1,0 +1,91 @@
+:toc:
+:toc-placement!:
+
+= MMI
+
+MMI is some Ruby code that should make downloading and installing modloaders, mods, resource packs and other files for Minecraft easier.
+Configuring the downloads/installs is done by reading a YAML file.
+
+Ideally, a user would not need to know or write any YAML to create a configuration file.
+This is still work in progress.
+
+The application is currently CLI-only, but should work on Linux, MacOS and Windows.
+
+toc::[]
+
+= Installation
+
+== Prerequisites
+
+To run the application, Ruby version 2.5+ has to be installed.
+For maximum compatibility, use version 3.0+.
+
+== Steps
+
+Clone the repository and navigate into its root directory.
+
+[source,bash]
+----
+$ git clone https://github.com/expeehaa/mmi.git
+# or
+$ hg clone https://github.com/expeehaa/mmi.git
+
+$ cd mmi
+----
+
+Install gem dependencies.
+
+[source,bash]
+----
+$ bundle install
+----
+
+If you get an error that the lockfile requires `bundler` version 2.0+, install it first.
+
+[source,bash]
+----
+$ gem install bundler
+----
+
+= Basic usage
+
+In the repository root directory, run `exe/mmi`.
+
+[source,text]
+----
+Syntax: exe/mmi <config file> [action=install]
+
+	where action is one of
+		install  - Install the modloader and assets as specified in the config file.
+		validate - Validate the config file.
+		update   - Update the config file interactively.
+----
+
+The script currently does not support any arguments besides the ones listed above.
+Trying to get help by running `exe/mmi --help` or similar will not work.
+
+= Example configs
+
+Example configuration files can be found in `examples/`.
+They are completely working and download and install files into `tmp/` so that your `.minecraft` folder will stay unharmed.
+
+
+= TODOs
+
+* Improve argument parsing.
+* Write tests.
+* Add command to interactively create a config file.
+* Be able to update/change modloader interactively.
+* Be able to remove assets interactively.
+* Think about advising everyone to use another file extension than `.yaml` (e.g. `.mmi`, `.mmiconf`).
+* Try to make a Java-executable `.jar` file using `warbler` and `JRuby`.
+
+= Contributing
+
+Contributions are very welcome.
+If you intend to create a pull request, please choose a branch name describing its changes (i.e. not some generic term like `master` or `fix`, but e.g. `fix_typo` or `add_interactive_update_command`).
+
+Please be aware that I have a very specific code style and am interested in keeping it in this repository.
+Some basic rules are specified in the `.editorconfig` file, which your editor should support.
+Other code style rules may have to be exactly specified in the future.
+When in doubt, take a look at the existing code.
