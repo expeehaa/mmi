@@ -14,7 +14,6 @@ Gem::Specification.new do |spec|
 	spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
 	spec.require_paths = ['lib']
 	
-	spec.add_dependency 'semver2'   , '~> 3.4'
 	spec.add_dependency 'github_api', '~> 0.19'
 	spec.add_dependency 'cli-ui'    , '~> 1.5.0'
 	

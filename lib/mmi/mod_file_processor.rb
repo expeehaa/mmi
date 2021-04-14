@@ -1,6 +1,7 @@
 require 'mmi/modloader/none'
 require 'mmi/modloader/fabric'
 require 'mmi/assets_processor'
+require 'mmi/semver'
 
 module Mmi
 	class ModFileProcessor
@@ -18,8 +19,8 @@ module Mmi
 			@version     = content['version'    ]
 			@profile_dir = content['profile_dir'] || Mmi.minecraft_dir
 			
-			version     = SemVer.parse(self.version)
-			lib_version = SemVer.parse(Mmi::VERSION)
+			version     = Semver.parse(self.version)
+			lib_version = Semver.parse(Mmi::VERSION)
 			
 			if self.version
 				if version.major <= lib_version.major

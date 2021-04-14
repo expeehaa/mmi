@@ -1,4 +1,3 @@
-require 'semver'
 require 'open-uri'
 require 'fileutils'
 require 'digest'
