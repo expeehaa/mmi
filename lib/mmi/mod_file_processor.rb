@@ -1,6 +1,6 @@
-require_relative 'modloader/none'
-require_relative 'modloader/fabric'
-require_relative 'assets_processor'
+require 'mmi/modloader/none'
+require 'mmi/modloader/fabric'
+require 'mmi/assets_processor'
 
 module Mmi
 	class ModFileProcessor

@@ -1,16 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 require 'bundler/setup'
+require 'psych'
 
-Bundler.require(:default)
-
-if ENV['MMI_ENV']=='dev'
-	Bundler.require(:development)
-end
-
-require_relative '../lib/mmi'
-require_relative '../lib/mmi/interactive'
+require 'mmi'
+require 'mmi/interactive'
 
 CLI::UI::StdoutRouter.enable
 

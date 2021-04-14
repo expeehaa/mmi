@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-
-Bundler.require(:default, :development)
-
-require_relative '../lib/mmi'
+require 'mmi'
 
 Pry.start

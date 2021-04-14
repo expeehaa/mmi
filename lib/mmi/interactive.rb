@@ -1,4 +1,6 @@
-require_relative 'interactive/updater'
+require 'cli/ui'
+require 'mmi'
+require 'mmi/interactive/updater'
 
 module Mmi
 	module Interactive

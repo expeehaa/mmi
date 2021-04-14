@@ -1,5 +1,11 @@
-require_relative 'mmi/version'
-require_relative 'mmi/mod_file_processor'
+require 'semver'
+require 'open-uri'
+require 'fileutils'
+require 'digest'
+require 'github_api'
+
+require 'mmi/version'
+require 'mmi/mod_file_processor'
 
 module Mmi
 	MMI_CACHE_DIR = File.join(Dir.home, '.cache', 'mmi')

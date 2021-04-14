@@ -1,4 +1,4 @@
-require_relative 'source/github'
+require 'mmi/source/github'
 
 module Mmi
 	class AssetsProcessor
