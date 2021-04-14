@@ -19,5 +19,6 @@ Gem::Specification.new do |spec|
 	spec.add_dependency 'cli-ui'    , '~> 1.4'
 	
 	spec.add_development_dependency 'bundler', '~> 2.2'
+	spec.add_development_dependency 'rake'   , '~> 13.0'
 	spec.add_development_dependency 'pry'    , '~> 0.13'
 end

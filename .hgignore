@@ -1,4 +1,5 @@
 syntax: glob
 # Keep this file in sync with .gitignore.
 tmp/
+pkg/
 .swp
