@@ -82,7 +82,7 @@ module Mmi
 			def run_installer
 				FileUtils.mkdir_p(absolute_install_dir)
 				
-				if system('java', '-jar', installer_path, 'client', '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.mcversion)
+				if system('java', '-jar', installer_path, self.install_type, '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.mcversion)
 					# Pass.
 				else
 					Mmi.fail! 'Failed to install Fabric modloader.'
