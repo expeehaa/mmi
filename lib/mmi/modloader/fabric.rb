@@ -7,20 +7,26 @@ module Mmi
 			attr_reader :install_type
 			attr_reader :mcversion
 			attr_reader :install_dir
+			attr_reader :download_mc
 			
 			def initialize(options)
 				@options = options
 				
-				@version      = options['version'          ]
-				@install_type = options['install_type'     ]
-				@mcversion    = options['minecraft_version']
-				@install_dir  = options['install_dir'      ] || Mmi.minecraft_dir
+				@version      = options['version'           ]
+				@install_type = options['install_type'      ]
+				@mcversion    = options['minecraft_version' ]
+				@install_dir  = options['install_dir'       ] || Mmi.minecraft_dir
+				@download_mc  = options['download_minecraft'] || false
 				
 				if self.version
 					if self.install_type
 						if ['client', 'server'].include?(self.install_type)
 							if self.mcversion
-								# Pass.
+								if [true, false].include?(self.download_mc)
+									# Pass.
+								else
+									raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.download_minecraft". Expecting true or false, got #{self.download_mc.inspect}.}
+								end
 							else
 								raise Mmi::MissingAttributeError, 'Missing "modloader.minecraft_version".'
 							end
@@ -82,7 +88,7 @@ module Mmi
 			def run_installer
 				FileUtils.mkdir_p(absolute_install_dir)
 				
-				if system('java', '-jar', installer_path, self.install_type, '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.mcversion)
+				if system('java', '-jar', installer_path, self.install_type, '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.mcversion, self.download_mc ? '-downloadMinecraft' : '')
 					# Pass.
 				else
 					Mmi.fail! 'Failed to install Fabric modloader.'
