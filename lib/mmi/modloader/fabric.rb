@@ -1,7 +1,7 @@
 module Mmi
 	module Modloader
 		class Fabric
-			attr_reader :options
+			include Mmi::OptionAttributes
 			
 			attr_reader :version
 			attr_reader :install_type

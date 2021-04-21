@@ -1,7 +1,7 @@
 module Mmi
 	module Source
 		class Github
-			attr_reader :options
+			include Mmi::OptionAttributes
 			
 			attr_reader :owner
 			attr_reader :repo

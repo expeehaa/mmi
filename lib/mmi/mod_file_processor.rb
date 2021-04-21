@@ -1,3 +1,4 @@
+require 'mmi/option_attributes'
 require 'mmi/modloader/none'
 require 'mmi/modloader/fabric'
 require 'mmi/assets_processor'
