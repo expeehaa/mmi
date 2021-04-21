@@ -45,6 +45,18 @@ module Mmi
 				'https://maven.fabricmc.net/net/fabricmc/fabric-installer'
 			end
 			
+			def metadata_uri
+				File.join(base_uri, 'maven-metadata.xml')
+			end
+			
+			def metadata_sha512sum_uri
+				"#{metadata_uri}.sha512"
+			end
+			
+			def metadata_path
+				File.join(Mmi.cache_dir, 'fabric_maven_metadata.xml')
+			end
+			
 			def installer_uri
 				File.join(base_uri, self.version, "fabric-installer-#{self.version}.jar")
 			end
@@ -84,6 +96,20 @@ module Mmi
 			def install
 				download_installer
 				run_installer
+			end
+			
+			def available_versions
+				begin
+					Mmi::CachedDownload.download_cached(metadata_uri, metadata_path, sha512_uri: metadata_sha512sum_uri)
+				rescue OpenURI::HTTPError => e
+					Mmi.fail! 'Error when requesting available fabric installer versions.'
+				end
+				
+				xml = File.open(metadata_path) do |f|
+					Nokogiri::XML(f)
+				end
+				
+				xml.xpath('/metadata/versioning/versions/version').map(&:inner_html)
 			end
 		end
 	end
