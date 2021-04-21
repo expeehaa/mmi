@@ -7,17 +7,16 @@ module Mmi
 				expected_hexdigest = URI.open(sha512_uri).read
 				
 				if !File.exists?(download_path) || expected_hexdigest != Digest::SHA512.hexdigest(File.read(download_path))
-					stream = URI.open(uri)
-					
-					IO.copy_stream(stream, download_path)
-					
-					actual_hexdigest = Digest::SHA512.hexdigest(File.read(download_path))
+					stream           = URI.open(uri)
+					actual_hexdigest = Digest::SHA512.hexdigest(stream.read)
 					
 					if expected_hexdigest == actual_hexdigest
-						# Pass.
+						stream.seek(0)
 					else
 						Mmi.fail! "Expected download to have SHA512 sum #{expected_hexdigest.inspect} but received #{actual_hexdigest.inspect}."
 					end
+					
+					IO.copy_stream(stream, download_path)
 				else
 					Mmi.info "Using cached version of #{uri.inspect} from #{download_path.inspect}."
 				end
