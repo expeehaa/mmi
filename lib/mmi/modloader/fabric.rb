@@ -41,8 +41,12 @@ module Mmi
 				end
 			end
 			
+			def base_uri
+				'https://maven.fabricmc.net/net/fabricmc/fabric-installer'
+			end
+			
 			def installer_uri
-				"https://maven.fabricmc.net/net/fabricmc/fabric-installer/#{self.version}/fabric-installer-#{self.version}.jar"
+				File.join(base_uri, self.version, "fabric-installer-#{self.version}.jar")
 			end
 			
 			def installer_sha512sum_uri
