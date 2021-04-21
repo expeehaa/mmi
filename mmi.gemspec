@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
 	
 	spec.add_dependency 'github_api', '~> 0.19'
 	spec.add_dependency 'cli-ui'    , '~> 1.5.0'
+	spec.add_dependency 'nokogiri'  , '~> 1.11.3'
 	
 	spec.add_development_dependency 'bundler', '~> 2.2'
 	spec.add_development_dependency 'rake'   , '~> 13.0'
