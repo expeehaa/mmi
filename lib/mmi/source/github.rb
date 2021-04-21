@@ -3,25 +3,17 @@ module Mmi
 		class Github
 			include Mmi::OptionAttributes
 			
-			attr_reader :owner
-			attr_reader :repo
-			attr_reader :install_dir
-			attr_reader :filename
+			opt_accessor :owner
+			opt_accessor :repo
+			opt_accessor :install_dir
+			opt_accessor :filename
 			
-			attr_reader :asset_id
-			attr_reader :release
-			attr_reader :file
+			opt_accessor :asset_id
+			opt_accessor :release
+			opt_accessor :file
 			
 			def initialize(options)
 				@options = options
-				
-				@owner       = options['owner'      ]
-				@repo        = options['repo'       ]
-				@asset_id    = options['asset_id'   ]
-				@release     = options['release'    ]
-				@file        = options['file'       ]
-				@install_dir = options['install_dir']
-				@filename    = options['filename'   ]
 				
 				if self.owner
 					if self.repo

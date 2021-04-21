@@ -8,17 +8,14 @@ module Mmi
 	class ModFileProcessor
 		include OptionAttributes
 		
-		attr_reader :version
-		attr_reader :profile_dir
+		opt_accessor :version
+		opt_accessor :profile_dir do Mmi.minecraft_dir end
 		
 		attr_reader :modloader
 		attr_reader :assets
 		
 		def initialize(options)
 			@options = options
-			
-			@version     = options['version'    ]
-			@profile_dir = options['profile_dir'] || Mmi.minecraft_dir
 			
 			version     = Semver.parse(self.version)
 			lib_version = Semver.parse(Mmi::VERSION)

@@ -3,20 +3,14 @@ module Mmi
 		class Fabric
 			include Mmi::OptionAttributes
 			
-			attr_reader :version
-			attr_reader :install_type
-			attr_reader :mcversion
-			attr_reader :install_dir
-			attr_reader :download_mc
+			opt_accessor :version
+			opt_accessor :install_type
+			opt_accessor :mcversion   , 'minecraft_version'
+			opt_accessor :install_dir                        do Mmi.minecraft_dir end
+			opt_accessor :download_mc , 'download_minecraft' do false             end
 			
 			def initialize(options)
 				@options = options
-				
-				@version      = options['version'           ]
-				@install_type = options['install_type'      ]
-				@mcversion    = options['minecraft_version' ]
-				@install_dir  = options['install_dir'       ] || Mmi.minecraft_dir
-				@download_mc  = options['download_minecraft'] || false
 				
 				if self.version
 					if self.install_type
