@@ -65,25 +65,7 @@ module Mmi
 				Mmi.info "Downloading fabric-installer version #{self.version.inspect}."
 				
 				begin
-					FileUtils.mkdir_p(Mmi.cache_dir)
-					
-					expected_hexdigest = URI.open(installer_sha512sum_uri).read
-					
-					if !File.exists?(installer_path) || expected_hexdigest != Digest::SHA512.hexdigest(File.read(installer_path))
-						stream = URI.open(installer_uri)
-						
-						IO.copy_stream(stream, installer_path)
-						
-						actual_hexdigest = Digest::SHA512.hexdigest(File.read(installer_path))
-						
-						if expected_hexdigest == actual_hexdigest
-							# Pass.
-						else
-							Mmi.fail! "Expected fabric installer to have SHA512 sum #{expected_hexdigest.inspect} but received #{actual_hexdigest.inspect}."
-						end
-					else
-						Mmi.info 'Using cached fabric-installer.'
-					end
+					Mmi::CachedDownload.download_cached(installer_uri, installer_path, sha512_uri: installer_sha512sum_uri)
 				rescue OpenURI::HTTPError => e
 					Mmi.fail! %Q{Error when requesting fabric installer. Maybe "modloader.version" == #{version.inspect} is invalid.\n#{e.inspect}}
 				end
