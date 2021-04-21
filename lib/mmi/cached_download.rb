@@ -19,12 +19,12 @@ module Mmi
 			def download(uri, sha512: nil)
 				URI.open(uri).tap do |stream|
 					if sha512
-						actual_hexdigest = Digest::SHA512.hexdigest(stream.read)
+						actual_sha512 = Digest::SHA512.hexdigest(stream.read)
 						
-						if sha512 == actual_hexdigest
+						if sha512 == actual_sha512
 							stream.seek(0)
 						else
-							Mmi.fail! "Expected download to have SHA512 sum #{expected_hexdigest.inspect} but received #{actual_hexdigest.inspect}."
+							Mmi.fail! "Expected download to have SHA512 sum #{expected_hexdigest.inspect} but received #{actual_sha512.inspect}."
 						end
 					end
 				end
