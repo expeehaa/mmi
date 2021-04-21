@@ -1,6 +1,21 @@
 module Mmi
 	module CachedDownload
 		class << self;
+			def open_cached(path, sha512: nil)
+				if File.exists?(path)
+					File.open(path).tap do |f|
+						if !sha512 || sha512 == Digest::SHA512.hexdigest(f.read)
+							f.seek(0)
+							f
+						else
+							nil
+						end
+					end
+				else
+					nil
+				end
+			end
+			
 			def download(uri, sha512: nil)
 				URI.open(uri).tap do |stream|
 					if sha512
@@ -19,8 +34,9 @@ module Mmi
 				ensure_cache_dir_exists!
 				
 				expected_hexdigest = URI.open(sha512_uri).read
+				cached_file        = open_cached(download_path, sha512: expected_hexdigest)
 				
-				if !File.exists?(download_path) || expected_hexdigest != Digest::SHA512.hexdigest(File.read(download_path))
+				if !cached_file
 					stream = download(uri, sha512: expected_hexdigest)
 					
 					IO.copy_stream(stream, download_path)
