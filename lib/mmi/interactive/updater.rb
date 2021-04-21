@@ -28,7 +28,7 @@ module Mmi
 						update_assets
 					when :quit_save
 						file_path = CLI::UI::Prompt.ask('Filename', default: self.file_path, is_file: true)
-						yaml      = self.processor.content.to_yaml
+						yaml      = self.processor.options.to_yaml
 						
 						File.write(File.expand_path(file_path, Dir.pwd), yaml)
 						break
@@ -100,9 +100,9 @@ module Mmi
 					source = Mmi::Source::Github.new(options['source'])
 					
 					if update_asset(source)
-						self.processor.content['assets'] ||= []
+						self.processor.options['assets'] ||= []
 						
-						self.processor.content['assets'].push(options)
+						self.processor.options['assets'].push(options)
 						self.processor.assets.assets.push(source)
 						
 						true

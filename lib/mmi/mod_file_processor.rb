@@ -6,7 +6,7 @@ require 'mmi/semver'
 
 module Mmi
 	class ModFileProcessor
-		attr_reader :content
+		attr_reader :options
 		
 		attr_reader :version
 		attr_reader :profile_dir
@@ -14,11 +14,11 @@ module Mmi
 		attr_reader :modloader
 		attr_reader :assets
 		
-		def initialize(content)
-			@content = content
+		def initialize(options)
+			@options = options
 			
-			@version     = content['version'    ]
-			@profile_dir = content['profile_dir'] || Mmi.minecraft_dir
+			@version     = options['version'    ]
+			@profile_dir = options['profile_dir'] || Mmi.minecraft_dir
 			
 			version     = Semver.parse(self.version)
 			lib_version = Semver.parse(Mmi::VERSION)
@@ -29,7 +29,7 @@ module Mmi
 						Mmi.warn %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}. Some features might not be supported.}
 					end
 					
-					ml         = content['modloader']
+					ml         = options['modloader']
 					@modloader = if ml
 						case ml['name']
 						when 'none'
@@ -43,7 +43,7 @@ module Mmi
 						Modloader::None.new
 					end
 					
-					@assets = AssetsProcessor.new(self.profile_dir, content['assets'])
+					@assets = AssetsProcessor.new(self.profile_dir, options['assets'])
 				else
 					raise Mmi::InvalidAttributeError, %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
 				end
