@@ -6,7 +6,7 @@ require 'mmi/semver'
 
 module Mmi
 	class ModFileProcessor
-		attr_reader :options
+		include OptionAttributes
 		
 		attr_reader :version
 		attr_reader :profile_dir
