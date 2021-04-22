@@ -100,9 +100,9 @@ module Mmi
 					source = Mmi::Source::Github.new(options['source'])
 					
 					if update_asset(source)
-						self.processor.options['assets'] ||= []
+						self.processor.assets ||= []
 						
-						self.processor.options['assets'].push(options)
+						self.processor.assets.push(options)
 						self.processor.parsed_assets.parsed_assets.push(source)
 						
 						true
