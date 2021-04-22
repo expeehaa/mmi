@@ -42,7 +42,7 @@ module Mmi
 			
 			def update_assets
 				while true
-					assets = processor.assets.assets
+					assets = processor.parsed_assets.parsed_assets
 					
 					choice = CLI::UI::Prompt.ask('Which asset do you want to change?') do |handler|
 						assets.each do |asset|
@@ -103,7 +103,7 @@ module Mmi
 						self.processor.options['assets'] ||= []
 						
 						self.processor.options['assets'].push(options)
-						self.processor.assets.assets.push(source)
+						self.processor.parsed_assets.parsed_assets.push(source)
 						
 						true
 					else

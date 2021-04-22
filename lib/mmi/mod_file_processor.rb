@@ -11,8 +11,8 @@ module Mmi
 		opt_accessor :version
 		opt_accessor :profile_dir do Mmi.minecraft_dir end
 		
-		attr_reader :modloader
-		attr_reader :assets
+		attr_reader :parsed_modloader
+		attr_reader :parsed_assets
 		
 		def initialize(options)
 			@options = options
@@ -27,7 +27,7 @@ module Mmi
 					end
 					
 					ml         = options['modloader']
-					@modloader = if ml
+					@parsed_modloader = if ml
 						case ml['name']
 						when 'none'
 							Modloader::None.new(ml)
@@ -40,7 +40,7 @@ module Mmi
 						Modloader::None.new
 					end
 					
-					@assets = AssetsProcessor.new(self.profile_dir, options['assets'])
+					@parsed_assets = AssetsProcessor.new(self.profile_dir, options['assets'])
 				else
 					raise Mmi::InvalidAttributeError, %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
 				end
@@ -50,8 +50,8 @@ module Mmi
 		end
 		
 		def install
-			self.modloader.install
-			self.assets.install
+			self.parsed_modloader.install
+			self.parsed_assets.install
 		end
 	end
 end

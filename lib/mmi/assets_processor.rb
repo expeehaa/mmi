@@ -3,7 +3,7 @@ require 'mmi/source/github'
 module Mmi
 	class AssetsProcessor
 		attr_reader :profile_dir
-		attr_reader :assets
+		attr_reader :parsed_assets
 		
 		def initialize(profile_dir, assets)
 			@profile_dir = profile_dir
@@ -11,7 +11,7 @@ module Mmi
 			assets ||= []
 			
 			if assets.is_a?(Array)
-				@assets = assets.map.with_index do |asset, index|
+				@parsed_assets = assets.map.with_index do |asset, index|
 					source = asset['source']
 					
 					if source
@@ -33,7 +33,7 @@ module Mmi
 		end
 		
 		def install
-			assets.each do |asset|
+			self.parsed_assets.each do |asset|
 				asset.install(self.profile_dir)
 			end
 		end
