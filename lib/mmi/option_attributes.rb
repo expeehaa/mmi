@@ -21,7 +21,11 @@ module Mmi
 			
 			def opt_writer(attr, name = attr.to_s)
 				define_method(:"#{attr.to_sym}=") do |value|
-					self.options[name] = value
+					if value.nil?
+						self.options.delete(name)
+					else
+						self.options[name] = value
+					end
 				end
 			end
 			
