@@ -149,10 +149,10 @@ module Mmi
 						when :quit
 							false
 						else
-							asset.options.delete('release')
-							asset.options.delete('file'   )
+							asset.release = nil
+							asset.file    = nil
 							
-							asset.options['asset_id'] = release_asset.id
+							asset.asset_id = release_asset.id
 							
 							true
 						end
