@@ -14,7 +14,7 @@ module Mmi
 				
 				if self.version
 					if self.install_type
-						if ['client', 'server'].include?(self.install_type)
+						if allowed_install_types.include?(self.install_type)
 							if self.mcversion
 								if [true, false].include?(self.download_mc)
 									# Pass.
@@ -33,6 +33,13 @@ module Mmi
 				else
 					raise Mmi::MissingAttributeError, 'Missing "modloader.version".'
 				end
+			end
+			
+			def allowed_install_types
+				[
+					'client',
+					'server',
+				]
 			end
 			
 			def base_uri

@@ -148,10 +148,7 @@ module Mmi
 							end
 						when :install_type
 							choice2 = CLI::UI::Prompt.ask('What type of installation do you want?') do |handler|
-								[
-									'client',
-									'server',
-								].each do |type|
+								ml.allowed_install_types.each do |type|
 									handler.option(type, &:itself)
 								end
 								
