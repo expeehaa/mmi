@@ -19,6 +19,10 @@ module Mmi
 		def initialize(options)
 			@options = options
 			
+			parse!
+		end
+		
+		def parse!
 			version     = Semver.parse(self.version)
 			lib_version = Semver.parse(Mmi::VERSION)
 			

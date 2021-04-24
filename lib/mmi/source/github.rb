@@ -15,6 +15,10 @@ module Mmi
 			def initialize(options)
 				@options = options
 				
+				parse!
+			end
+			
+			def parse!
 				if self.owner
 					if self.repo
 						if self.install_dir

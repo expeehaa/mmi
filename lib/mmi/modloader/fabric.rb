@@ -12,6 +12,10 @@ module Mmi
 			def initialize(options)
 				@options = options
 				
+				parse!
+			end
+			
+			def parse!
 				if self.version
 					if self.install_type
 						if allowed_install_types.include?(self.install_type)
