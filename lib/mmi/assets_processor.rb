@@ -2,16 +2,18 @@ require 'mmi/source/github'
 
 module Mmi
 	class AssetsProcessor
-		attr_reader :profile_dir
-		attr_reader :parsed_assets
+		include OptionAttributes
 		
-		def initialize(profile_dir, assets)
-			@profile_dir = profile_dir
+		opt_accessor :profile_dir do Mmi.minecraft_dir end
+		opt_accessor :items       do []                end
+		
+		attr_reader :parsed_items
+		
+		def initialize(options)
+			@options = options
 			
-			assets ||= []
-			
-			if assets.is_a?(Array)
-				@parsed_assets = assets.map.with_index do |asset, index|
+			if self.items.is_a?(Array)
+				@parsed_items = self.items.map.with_index do |asset, index|
 					source = asset['source']
 					
 					if source
@@ -28,12 +30,12 @@ module Mmi
 					end
 				end
 			else
-				raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Array or nothing, got #{self.assets.inspect}.}
+				raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Array or nothing, got #{self.items.inspect}.}
 			end
 		end
 		
 		def install
-			self.parsed_assets.each do |asset|
+			self.parsed_items.each do |asset|
 				asset.install(self.profile_dir)
 			end
 		end

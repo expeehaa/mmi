@@ -9,7 +9,6 @@ module Mmi
 		include OptionAttributes
 		
 		opt_accessor :version
-		opt_accessor :profile_dir do Mmi.minecraft_dir end
 		opt_accessor :modloader
 		opt_accessor :assets
 		
@@ -46,7 +45,16 @@ module Mmi
 						Modloader::None.new
 					end
 					
-					@parsed_assets = AssetsProcessor.new(self.profile_dir, self.assets)
+					
+					if self.assets
+						if self.assets.is_a?(Hash)
+							@parsed_assets = AssetsProcessor.new(self.assets)
+						else
+							raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Hash but received #{self.assets.inspect}}
+						end
+					else
+						raise Mmi::MissingAttributeError, 'Missing "assets".'
+					end
 				else
 					raise Mmi::InvalidAttributeError, %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
 				end

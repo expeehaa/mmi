@@ -1,6 +1,5 @@
 ---
 version: 0.1.0
-profile_dir: tmp/examples/optimized_client
 modloader:
   name: fabric
   version: 0.7.3
@@ -8,24 +7,26 @@ modloader:
   install_dir: tmp/examples/optimized_client
   minecraft_version: 1.16.5
 assets:
-- source:
-    type: github
-    owner: CaffeineMC
-    repo: lithium-fabric
-    asset_id: 32546325
-    install_dir: mods
-- source:
-    type: github
-    owner: CaffeineMC
-    repo: phosphor-fabric
-    release: mc1.16.2-v0.7.1
-    file: phosphor-fabric-mc1.16.3-0.7.1+build.11.jar
-    install_dir: mods
-- source:
-    type: github
-    owner: CaffeineMC
-    repo: sodium-fabric
-    release: mc1.16.3-0.1.0
-    file: sodium-fabric-mc1.16.3-0.1.0.jar
-    install_dir: mods
-    filename: sodium-1.16.3-0.1.0.jar
+  profile_dir: tmp/examples/optimized_client
+  items:
+  - source:
+      type: github
+      owner: CaffeineMC
+      repo: lithium-fabric
+      asset_id: 32546325
+      install_dir: mods
+  - source:
+      type: github
+      owner: CaffeineMC
+      repo: phosphor-fabric
+      release: mc1.16.2-v0.7.1
+      file: phosphor-fabric-mc1.16.3-0.7.1+build.11.jar
+      install_dir: mods
+  - source:
+      type: github
+      owner: CaffeineMC
+      repo: sodium-fabric
+      release: mc1.16.3-0.1.0
+      file: sodium-fabric-mc1.16.3-0.1.0.jar
+      install_dir: mods
+      filename: sodium-1.16.3-0.1.0.jar

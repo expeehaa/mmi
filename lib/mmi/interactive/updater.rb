@@ -174,7 +174,7 @@ module Mmi
 			
 			def update_assets
 				while true
-					assets = processor.parsed_assets.parsed_assets
+					assets = processor.parsed_assets.parsed_items
 					
 					choice = CLI::UI::Prompt.ask('Which asset do you want to change?') do |handler|
 						assets.each do |asset|
@@ -232,10 +232,8 @@ module Mmi
 					source = Mmi::Source::Github.new(options['source'])
 					
 					if update_asset(source)
-						self.processor.assets ||= []
-						
-						self.processor.assets.push(options)
-						self.processor.parsed_assets.parsed_assets.push(source)
+						self.processor.parsed_assets.items.push(options)
+						self.processor.parsed_assets.parsed_items.push(source)
 						
 						true
 					else
