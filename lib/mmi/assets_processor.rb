@@ -12,6 +12,10 @@ module Mmi
 		def initialize(options)
 			@options = options
 			
+			parse!
+		end
+		
+		def parse!
 			if self.items.is_a?(Array)
 				@parsed_items = self.items.map.with_index do |asset, index|
 					source = asset['source']
