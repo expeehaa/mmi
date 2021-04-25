@@ -80,6 +80,16 @@ They are completely working and download and install files into `tmp/` so that y
 * Think about advising everyone to use another file extension than `.yaml` (e.g. `.mmi`, `.mmiconf`).
 * Try to make a Java-executable `.jar` file using `warbler` and `JRuby`.
 
+= Versioning
+
+MMI uses semantic versioning with major, minor and patch versions.
+The versions are coupled to the configuration files.
+
+This means, within the same major version, every release must be backwards-compatible regarding config file interpreting and MMI releases with a lower minor version must still be able to interpret a config file with a higher minor version (although they may not support some features).
+
+An exception to this rule are all releases with the major version `0`.
+There, within the same minor version, backwards compatibility can be expected, but different minor versions will (most likely) not be compatibility.
+
 = Contributing
 
 Contributions are very welcome.
