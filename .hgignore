@@ -3,3 +3,4 @@ syntax: glob
 tmp/
 pkg/
 .swp
+spec/examples.txt
