@@ -12,7 +12,7 @@ module Mmi
 		
 		def self.parse(s)
 			if m = /\A(?<major>\d+)(\.(?<minor>\d+))?(\.(?<patch>\d+))?\z/.match(s.strip)
-				new(m[:major], m[:minor], m[:patch])
+				new(m[:major].to_i, m[:minor].to_i, m[:patch].to_i)
 			else
 				raise "Version string not in valid format: #{s.inspect}"
 			end
