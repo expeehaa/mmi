@@ -92,7 +92,11 @@ There, within the same minor version, backwards compatibility can be expected, b
 
 = Contributing
 
-Contributions are very welcome.
+Contributions are very welcome, as well as feature/bug requests.
+
+In case you want to implement a feature, it would be best to create an issue beforehand so that we can discuss it.
+This reduces the chance of a pull request being rejected.
+
 If you intend to create a pull request, please choose a branch name describing its changes (i.e. not some generic term like `master` or `fix`, but e.g. `fix_typo` or `add_interactive_update_command`).
 
 Please be aware that I have a very specific code style and am interested in keeping it in this repository.
