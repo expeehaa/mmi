@@ -24,8 +24,10 @@ RSpec.describe Mmi::Semver do
 		it 'requires the string to match a regex' do
 			expect{Mmi::Semver.parse(''        )}.to raise_error RuntimeError, 'Version string not in valid format: ""'
 			expect{Mmi::Semver.parse('test'    )}.to raise_error RuntimeError, 'Version string not in valid format: "test"'
+			expect{Mmi::Semver.parse('1'       )}.to raise_error RuntimeError, 'Version string not in valid format: "1"'
 			expect{Mmi::Semver.parse('1.'      )}.to raise_error RuntimeError, 'Version string not in valid format: "1."'
 			expect{Mmi::Semver.parse('1.test'  )}.to raise_error RuntimeError, 'Version string not in valid format: "1.test"'
+			expect{Mmi::Semver.parse('1.2'     )}.to raise_error RuntimeError, 'Version string not in valid format: "1.2"'
 			expect{Mmi::Semver.parse('1.2.'    )}.to raise_error RuntimeError, 'Version string not in valid format: "1.2."'
 			expect{Mmi::Semver.parse('1.2.test')}.to raise_error RuntimeError, 'Version string not in valid format: "1.2.test"'
 			expect{Mmi::Semver.parse('1.2.3.'  )}.to raise_error RuntimeError, 'Version string not in valid format: "1.2.3."'
@@ -33,18 +35,16 @@ RSpec.describe Mmi::Semver do
 			expect{Mmi::Semver.parse('t1.2.3'  )}.to raise_error RuntimeError, 'Version string not in valid format: "t1.2.3"'
 			expect{Mmi::Semver.parse('1.2.3t'  )}.to raise_error RuntimeError, 'Version string not in valid format: "1.2.3t"'
 			
-			expect{Mmi::Semver.parse('1'    )}.not_to raise_error
-			expect{Mmi::Semver.parse('1.2'  )}.not_to raise_error
 			expect{Mmi::Semver.parse('1.2.3')}.not_to raise_error
 		end
 		
 		it 'parses a version string correctly' do
-			Mmi::Semver.parse('1'    ).tap do |v|
+			Mmi::Semver.parse('1.0.0'    ).tap do |v|
 				expect(v.major).to eq 1
 				expect(v.minor).to eq 0
 				expect(v.patch).to eq 0
 			end
-			Mmi::Semver.parse('1.2'  ).tap do |v|
+			Mmi::Semver.parse('1.2.0'  ).tap do |v|
 				expect(v.major).to eq 1
 				expect(v.minor).to eq 2
 				expect(v.patch).to eq 0
