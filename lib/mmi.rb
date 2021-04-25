@@ -39,7 +39,7 @@ module Mmi
 	end
 	
 	def self.fail!(text)
-		STDERR.puts text
+		$stderr.puts text
 		Kernel.exit 1
 	end
 end
