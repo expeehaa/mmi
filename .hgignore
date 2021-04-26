@@ -4,3 +4,4 @@ tmp/
 pkg/
 .swp
 spec/examples.txt
+jar/
