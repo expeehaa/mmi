@@ -124,6 +124,12 @@ Lint/UselessAssignment:
   Exclude:
     - 'bin/console'
 
+# Naming
+
+# TODO: Decide on a naming scheme or remove this TODO.
+Naming/VariableNumber:
+  Enabled: false
+
 # RSpec
 
 RSpec/ExampleLength:
