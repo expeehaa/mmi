@@ -10,7 +10,7 @@ module Mmi
 				choice = CLI::UI::Prompt.ask('What do you want to do?') do |handler|
 					[
 						(["Update current modloader #{self.processor.modloader['name']}", :update_current] unless self.processor.parsed_modloader.is_a?(Mmi::Modloader::None)),
-						['quit'                                                         , :quit          ],
+						['quit',                                                          :quit          ],
 					].each do |name, result|
 						handler.option(name) do |s|
 							result
@@ -38,12 +38,12 @@ module Mmi
 						loop do
 							choice = CLI::UI::Prompt.ask('What do you want to update?') do |handler|
 								[
-									['Installer version'  , :version     ],
-									['Minecraft version'  , :mc_version  ],
+									['Installer version',   :version     ],
+									['Minecraft version',   :mc_version  ],
 									['Download Minecraft?', :download_mc ],
-									['Install directory'  , :install_dir ],
-									['Install type'       , :install_type],
-									['quit'               , :quit        ],
+									['Install directory',   :install_dir ],
+									['Install type',        :install_type],
+									['quit',                :quit        ],
 								].each do |name, result|
 									handler.option(name) do |s|
 										result

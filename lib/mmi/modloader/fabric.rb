@@ -11,9 +11,9 @@ module Mmi
 			
 			opt_accessor :version
 			opt_accessor :install_type
-			opt_accessor :mcversion   , 'minecraft_version'
+			opt_accessor :mcversion,    'minecraft_version'
 			opt_accessor :install_dir                        do Mmi.minecraft_dir end
-			opt_accessor :download_mc , 'download_minecraft' do false             end
+			opt_accessor :download_mc,  'download_minecraft' do false             end
 			
 			def initialize(options)
 				@options = options

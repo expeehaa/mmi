@@ -21,9 +21,9 @@ module Mmi
 				loop do
 					to_update = CLI::UI::Prompt.ask('What do you want to update?') do |handler|
 						[
-							['modloader'             , :modloader   ],
-							['assets'                , :assets      ],
-							['quit & save changes'   , :quit_save   ],
+							['modloader',              :modloader   ],
+							['assets',                 :assets      ],
+							['quit & save changes',    :quit_save   ],
 							['quit & discard changes', :quit_discard],
 						].each do |name, result|
 							handler.option(name) do |s|

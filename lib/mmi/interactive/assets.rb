@@ -17,7 +17,7 @@ module Mmi
 							end
 						end
 						
-						handler.option('add' , &:to_sym)
+						handler.option('add',  &:to_sym)
 						handler.option('quit', &:to_sym)
 					end
 					
