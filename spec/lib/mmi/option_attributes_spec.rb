@@ -72,26 +72,26 @@ RSpec.describe Mmi::OptionAttributes do
 			end
 			
 			it 'sets a value in the options hash with writer #test_1=' do
-				expect{test_instance_with_hash_options.test_1 = 'goat'}.to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'test_1' => 'goat'})
+				expect{test_instance_with_hash_options.test_1 = 'goat'}.to change(test_instance_with_hash_options, :options).from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'test_1' => 'goat'})
 			end
 			
 			it 'sets a value in the options hash with writer #test_2=' do
-				expect{test_instance_with_hash_options.test_2 = 'goat'}.to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'test_2' => 'goat'})
+				expect{test_instance_with_hash_options.test_2 = 'goat'}.to change(test_instance_with_hash_options, :options).from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'test_2' => 'goat'})
 			end
 			
 			it 'sets a value in the options hash with writer #test_3=' do
-				expect{test_instance_with_hash_options.test_3 = 'goat'}.to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'cow' => 'goat'})
+				expect{test_instance_with_hash_options.test_3 = 'goat'}.to change(test_instance_with_hash_options, :options).from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'ee ah', 'cow' => 'goat'})
 			end
 			
 			it 'sets a value in the options hash with writer #test_4=' do
-				expect{test_instance_with_hash_options.test_4 = 'goat'}.to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'goat'})
+				expect{test_instance_with_hash_options.test_4 = 'goat'}.to change(test_instance_with_hash_options, :options).from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10, 'donkey' => 'goat'})
 			end
 			
 			it 'deletes the key-value pair in the options hash when setting nil' do
-				expect{test_instance_with_hash_options.test_1 = nil}.not_to(change{test_instance_with_hash_options.options})
-				expect{test_instance_with_hash_options.test_2 = nil}.not_to(change{test_instance_with_hash_options.options})
-				expect{test_instance_with_hash_options.test_3 = nil}.not_to(change{test_instance_with_hash_options.options})
-				expect{test_instance_with_hash_options.test_4 = nil}.    to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10})
+				expect{test_instance_with_hash_options.test_1 = nil}.not_to change(test_instance_with_hash_options, :options)
+				expect{test_instance_with_hash_options.test_2 = nil}.not_to change(test_instance_with_hash_options, :options)
+				expect{test_instance_with_hash_options.test_3 = nil}.not_to change(test_instance_with_hash_options, :options)
+				expect{test_instance_with_hash_options.test_4 = nil}.    to change(test_instance_with_hash_options, :options).from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10})
 			end
 		end
 	end
