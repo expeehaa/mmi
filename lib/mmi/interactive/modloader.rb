@@ -98,7 +98,7 @@ module Mmi
 								when :install_dir
 									choice2 =
 										begin
-											CLI::UI::Prompt.ask("In which directory should the modloader be installed? ", is_file: true)
+											CLI::UI::Prompt.ask('In which directory should the modloader be installed? ', is_file: true)
 										rescue Interrupt
 											:quit
 										end
