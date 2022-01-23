@@ -6,7 +6,7 @@ module Mmi
 	module CachedDownload
 		class << self;
 			def open_cached(path, sha512: nil)
-				if File.exists?(path)
+				if File.exist?(path)
 					File.open(path).tap do |f|
 						if !sha512 || sha512 == Digest::SHA512.hexdigest(f.read)
 							f.seek(0)
