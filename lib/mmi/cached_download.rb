@@ -4,7 +4,7 @@ require 'open-uri'
 
 module Mmi
 	module CachedDownload
-		class << self;
+		class << self
 			def open_cached(path, sha512: nil)
 				if File.exist?(path)
 					File.open(path).tap do |f|
