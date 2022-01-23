@@ -32,18 +32,19 @@ module Mmi
 					end
 					
 					ml         = self.modloader
-					@parsed_modloader = if ml
-						case ml['name']
-							when 'none'
-								Modloader::None.new(ml)
-							when 'fabric'
-								Modloader::Fabric.new(ml)
-							else
-								raise Mmi::InvalidAttributeError, %Q{Unkown modloader #{ml['name'].inspect}.}
+					@parsed_modloader =
+						if ml
+							case ml['name']
+								when 'none'
+									Modloader::None.new(ml)
+								when 'fabric'
+									Modloader::Fabric.new(ml)
+								else
+									raise Mmi::InvalidAttributeError, %Q{Unkown modloader #{ml['name'].inspect}.}
+							end
+						else
+							Modloader::None.new
 						end
-					else
-						Modloader::None.new
-					end
 					
 					
 					if self.assets
