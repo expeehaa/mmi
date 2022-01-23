@@ -81,10 +81,10 @@ module Mmi
 			def update_asset(asset)
 				case asset
 					when Mmi::Source::Github
-						releases = ::Github::Client::Repos::Releases.new.list(owner: asset.owner, repo: asset.repo, per_page: 100)
+						github_releases = ::Github::Client::Repos::Releases.new.list(owner: asset.owner, repo: asset.repo, per_page: 100)
 						
-						release = CLI::UI::Prompt.ask('Choose a release.') do |handler|
-							releases.select do |release|
+						github_release = CLI::UI::Prompt.ask('Choose a release.') do |handler|
+							github_releases.select do |release|
 								release.assets.any?
 							end.each do |release|
 								handler.option(release.name) do |s|
@@ -95,12 +95,12 @@ module Mmi
 							handler.option('quit', &:to_sym)
 						end
 						
-						case release
+						case github_release
 							when :quit
 								false
 							else
 								release_asset = CLI::UI::Prompt.ask('Choose an asset.') do |handler|
-									release.assets.each do |a|
+									github_release.assets.each do |a|
 										handler.option(a.name) do |s|
 											a
 										end
