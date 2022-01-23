@@ -77,7 +77,7 @@ module Mmi
 				FileUtils.mkdir_p(install_dir)
 				
 				begin
-					stream = URI.open(download_url)
+					stream = URI.parse(download_url).open
 					
 					IO.copy_stream(stream, filepath)
 				rescue OpenURI::HTTPError => e
