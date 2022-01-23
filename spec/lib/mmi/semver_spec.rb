@@ -9,7 +9,7 @@ RSpec.describe Mmi::Semver do
 		end
 		
 		it 'has no default values for parameters' do
-			expect{Mmi::Semver.new(    )}.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 0, expected 3)')}}
+			expect{Mmi::Semver.new      }.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 0, expected 3)')}}
 			expect{Mmi::Semver.new(1   )}.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 1, expected 3)')}}
 			expect{Mmi::Semver.new(1, 2)}.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 2, expected 3)')}}
 		end
