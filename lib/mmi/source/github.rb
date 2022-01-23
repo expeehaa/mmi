@@ -57,7 +57,7 @@ module Mmi
 			end
 			
 			def cached_asset_response
-				@asset_get ||= ::Github::Client::Repos::Releases::Assets.new.get(owner: self.owner, repo: self.repo, id: self.asset_id)
+				@cached_asset_response ||= ::Github::Client::Repos::Releases::Assets.new.get(owner: self.owner, repo: self.repo, id: self.asset_id)
 			end
 			
 			def download_url
