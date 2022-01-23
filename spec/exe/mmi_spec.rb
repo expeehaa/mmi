@@ -5,7 +5,7 @@ RSpec.describe 'exe/mmi' do
 		arguments = [
 			'ruby',
 			File.expand_path('../../exe/mmi', __dir__),
-		]+args
+		] + args
 		
 		Open3.capture3(*arguments, stdin_data: stdin)
 	end

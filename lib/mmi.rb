@@ -18,7 +18,7 @@ module Mmi
 	class InvalidAttributeError < ValidationError; end
 	
 	def self.debug(text)
-		if ENV['MMI_ENV']=='dev'
+		if ENV['MMI_ENV'] == 'dev'
 			puts text
 		end
 	end

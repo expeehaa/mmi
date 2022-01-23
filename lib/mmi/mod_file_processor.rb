@@ -31,7 +31,7 @@ module Mmi
 						Mmi.warn %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}. Some features might not be supported.}
 					end
 					
-					ml         = self.modloader
+					ml = self.modloader
 					@parsed_modloader =
 						if ml
 							case ml['name']
