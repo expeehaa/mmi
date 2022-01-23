@@ -34,7 +34,7 @@ if !ARGV.empty?
 		when :update
 			Mmi::Interactive.update(processor(file), file)
 		else
-			$stderr.puts "Unknown action: #{action_param.inspect}."
+			warn "Unknown action: #{action_param.inspect}."
 			Kernel.exit 1
 	end
 else
