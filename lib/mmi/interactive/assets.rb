@@ -51,7 +51,7 @@ module Mmi
 							'source' => {
 								'type'     => 'github',
 								'asset_id' => 0,
-							}
+							},
 						}
 						
 						options['source']['owner'      ] = CLI::UI::Prompt.ask('Who is the owner of the source repository?').strip
