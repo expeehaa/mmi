@@ -170,6 +170,9 @@ Metrics/PerceivedComplexity:
 
 # RSpec
 
+RSpec/DescribeClass:
+  Enabled: false
+
 RSpec/DescribedClass:
   Enabled: true
   EnforcedStyle: explicit
