@@ -5,8 +5,8 @@ module Mmi
 	class AssetsProcessor
 		include OptionAttributes
 		
-		opt_accessor :profile_dir do Mmi.minecraft_dir end
-		opt_accessor :items       do []                end
+		opt_accessor(:profile_dir) { Mmi.minecraft_dir }
+		opt_accessor(:items      ) { []                }
 		
 		attr_reader :parsed_items
 		
