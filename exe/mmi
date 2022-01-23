@@ -19,7 +19,7 @@ def processor(file)
 	end
 end
 
-if ARGV.length > 0
+if !ARGV.empty?
 	file         = ARGV.shift
 	action_param = ARGV.shift
 	action       = action_param.nil? ? :install : action_param.to_sym
