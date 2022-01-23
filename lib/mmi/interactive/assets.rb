@@ -1,3 +1,8 @@
+require 'cli/ui'
+require 'github_api'
+
+require 'mmi/source/github'
+
 module Mmi
 	module Interactive
 		module Assets

@@ -1,3 +1,5 @@
+require 'cli/ui'
+
 require 'mmi/interactive/modloader'
 require 'mmi/interactive/assets'
 

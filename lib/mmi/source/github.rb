@@ -1,3 +1,9 @@
+require 'fileutils'
+require 'github_api'
+require 'open-uri'
+
+require 'mmi/option_attributes'
+
 module Mmi
 	module Source
 		class Github

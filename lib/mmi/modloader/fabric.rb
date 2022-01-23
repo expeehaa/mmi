@@ -1,3 +1,9 @@
+require 'fileutils'
+require 'nokogiri'
+
+require 'mmi/cached_download'
+require 'mmi/option_attributes'
+
 module Mmi
 	module Modloader
 		class Fabric

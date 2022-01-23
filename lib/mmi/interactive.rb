@@ -1,4 +1,3 @@
-require 'cli/ui'
 require 'mmi'
 require 'mmi/interactive/updater'
 

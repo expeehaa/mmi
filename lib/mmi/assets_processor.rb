@@ -1,3 +1,4 @@
+require 'mmi/option_attributes'
 require 'mmi/source/github'
 
 module Mmi

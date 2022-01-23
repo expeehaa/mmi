@@ -1,3 +1,8 @@
+require 'cli/ui'
+
+require 'mmi/modloader/fabric'
+require 'mmi/modloader/none'
+
 module Mmi
 	module Interactive
 		module Modloader

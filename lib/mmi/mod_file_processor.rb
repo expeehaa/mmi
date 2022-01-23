@@ -1,7 +1,7 @@
-require 'mmi/option_attributes'
+require 'mmi/assets_processor'
 require 'mmi/modloader/none'
 require 'mmi/modloader/fabric'
-require 'mmi/assets_processor'
+require 'mmi/option_attributes'
 require 'mmi/semver'
 
 module Mmi

@@ -1,3 +1,7 @@
+require 'digest'
+require 'fileutils'
+require 'open-uri'
+
 module Mmi
 	module CachedDownload
 		class << self;

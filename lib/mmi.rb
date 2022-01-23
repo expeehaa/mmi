@@ -1,12 +1,5 @@
-require 'open-uri'
-require 'fileutils'
-require 'digest'
-require 'github_api'
-require 'nokogiri'
-
 require 'mmi/version'
 require 'mmi/mod_file_processor'
-require 'mmi/cached_download'
 
 module Mmi
 	MMI_CACHE_DIR = File.join(Dir.home, '.cache', 'mmi')
