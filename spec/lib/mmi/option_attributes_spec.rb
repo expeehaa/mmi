@@ -3,7 +3,7 @@ RSpec.describe Mmi::OptionAttributes do
 		Class.new do
 			include Mmi::OptionAttributes
 			
-			def initialize(options = nil)
+			def initialize(options=nil)
 				@options = options
 			end
 		end
