@@ -13,14 +13,29 @@ The application is currently CLI-only, but should work on Linux, MacOS and Windo
 
 toc::[]
 
-= Installation
+== Installation
 
-== Prerequisites
+=== Prerequisites
 
-To run the application, Ruby version 2.5+ has to be installed.
-For maximum compatibility, use version 3.0+.
+It is recommended to use MMI with Ruby 3.0 or higher.
+While lower versions might work, further development is expected to ignore any specifics that may render those versions unusable.
 
-== Steps
+=== Steps
+
+==== Installation through rubygems.org
+
+[example]
+====
+*Disclaimer:* While MMI releases are published on rubygems.org, they might not reflect current development.
+If something does not work, try the manual installation.
+====
+
+[source,bash]
+----
+$ gem install mmi
+----
+
+==== Manual installation
 
 Clone the repository and navigate into its root directory.
 
@@ -33,27 +48,32 @@ $ hg clone https://github.com/expeehaa/mmi.git
 $ cd mmi
 ----
 
-Install gem dependencies.
+Install gem dependencies using bundler
 
 [source,bash]
 ----
 $ bundle install
 ----
 
-If you get an error that the lockfile requires `bundler` version 2.0+, install it first.
+If you get an error saying the lockfile requires `bundler` version 2.0+, install it first.
 
 [source,bash]
 ----
 $ gem install bundler
 ----
 
-= Basic usage
+Install the gem.
 
-In the repository root directory, run `exe/mmi`.
+[source,bash]
+----
+$ rake install
+----
+
+== Basic usage
 
 [source,text]
 ----
-Syntax: exe/mmi <config file> [action=install]
+Syntax: mmi <config file> [action=install]
 
 	where action is one of
 		install  - Install the modloader and assets as specified in the config file.
@@ -62,35 +82,38 @@ Syntax: exe/mmi <config file> [action=install]
 ----
 
 The script currently does not support any arguments besides the ones listed above.
-Trying to get help by running `exe/mmi --help` or similar will not work.
+Trying to get help by running `mmi --help` or similar will not work.
 
-= Example configs
+== Example configs
 
 Example configuration files can be found in `examples/`.
-They are completely working and download and install files into `tmp/` so that your `.minecraft` folder will stay unharmed.
+They can be parsed by the MMI version they come with.
+Example configurations download and install files into `tmp/` so that your `.minecraft` folder will stay unharmed.
 
+The files are intended to provide an overview of the different features of MMI.
+They are not intended to create a working modded Minecraft environment and will therefore not be updated for each new Minecraft version.
 
-= TODOs
+== TODOs
 
 * Improve argument parsing.
 * Write tests.
 * Add command to interactively create a config file.
 * Be able to update/change modloader interactively.
 * Be able to remove assets interactively.
-* Think about advising everyone to use another file extension than `.yaml` (e.g. `.mmi`, `.mmiconf`).
+* Think about advising users to use another file extension than `.yaml` (e.g. `.mmi`, `.mmiconf`).
 * Try to make a Java-executable `.jar` file using `warbler` and `JRuby`.
 
-= Versioning
+== Versioning
 
 MMI uses semantic versioning with major, minor and patch versions.
-The versions are coupled to the configuration files.
 
-This means, within the same major version, every release must be backwards-compatible regarding config file interpreting and MMI releases with a lower minor version must still be able to interpret a config file with a higher minor version (although they may not support some features).
+Versions are coupled to the configuration file specification.
+This means, within the same major version, every release must be backwards-compatible regarding config file interpreting and MMI releases with a lower minor version must still be able to interpret a config file with a higher minor version (although they are allowed and expected to not support some configurations).
 
 An exception to this rule are all releases with the major version `0`.
-There, within the same minor version, backwards compatibility can be expected, but different minor versions will (most likely) not be compatibility.
+There, within the same minor version, backwards compatibility can be expected, but different minor versions will (most likely) not be compatible.
 
-= Contributing
+== Contributing
 
 Contributions are very welcome, as well as feature/bug requests.
 
@@ -101,5 +124,6 @@ If you intend to create a pull request, please choose a branch name describing i
 
 Please be aware that I have a very specific code style and am interested in keeping it in this repository.
 Some basic rules are specified in the `.editorconfig` file, which your editor should support.
-Other code style rules may have to be exactly specified in the future.
-When in doubt, take a look at the existing code.
+Additionally, Rubocop has been configured using the existing code and every commit should pass Rubocop’s inspection.
+There most likely are a lot of Rubocop rules that are currently not triggered and therefore not configured.
+In such a case, either try to derive a style from existing code or feel free to ask.
