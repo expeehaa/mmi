@@ -83,6 +83,9 @@ Layout/SpaceBeforeBlockBraces:
 Layout/SpaceBeforeComma:
   Enabled: true
 
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
 Layout/SpaceInsideBlockBraces:
   Enabled: true
   EnforcedStyle: space
