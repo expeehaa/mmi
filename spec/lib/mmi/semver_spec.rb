@@ -1,7 +1,7 @@
 RSpec.describe Mmi::Semver do
 	describe '.new' do
 		it 'can be initialized' do
-			Mmi::Semver.new(1,2,3).tap do |v|
+			Mmi::Semver.new(1, 2, 3).tap do |v|
 				expect(v.major).to eq 1
 				expect(v.minor).to eq 2
 				expect(v.patch).to eq 3
