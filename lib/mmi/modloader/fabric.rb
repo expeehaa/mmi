@@ -46,9 +46,9 @@ module Mmi
 			end
 			
 			def allowed_install_types
-				[
-					'client',
-					'server',
+				%w[
+					client
+					server
 				]
 			end
 			
