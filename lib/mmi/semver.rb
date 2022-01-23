@@ -10,11 +10,11 @@ module Mmi
 			self.patch = patch
 		end
 		
-		def self.parse(s)
-			if (m = /\A(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\z/.match(s.strip))
+		def self.parse(version)
+			if (m = /\A(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\z/.match(version.strip))
 				new(m[:major].to_i, m[:minor].to_i, m[:patch].to_i)
 			else
-				raise "Version string not in valid format: #{s.inspect}"
+				raise "Version string not in valid format: #{version.inspect}"
 			end
 		end
 	end
