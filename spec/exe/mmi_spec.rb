@@ -22,15 +22,15 @@ RSpec.describe 'exe/mmi' do
 		end
 	end
 	
-	EXAMPLE_CONFIGS = Dir[File.expand_path('../../examples/*', __dir__)]
+	example_configs = Dir[File.expand_path('../../examples/*', __dir__)]
 	
-	describe EXAMPLE_CONFIGS do
+	describe example_configs do
 		it 'contains some elements' do
-			expect(EXAMPLE_CONFIGS.size).to eq 1
+			expect(example_configs.size).to eq 1
 		end
 	end
 	
-	EXAMPLE_CONFIGS.each do |config_file|
+	example_configs.each do |config_file|
 		context "with file #{config_file}" do
 			describe 'subcommand validate' do
 				it 'runs without an error' do
