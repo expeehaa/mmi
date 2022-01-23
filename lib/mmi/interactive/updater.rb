@@ -26,7 +26,7 @@ module Mmi
 							['quit & save changes',    :quit_save   ],
 							['quit & discard changes', :quit_discard],
 						].each do |name, result|
-							handler.option(name) do |s|
+							handler.option(name) do
 								result
 							end
 						end

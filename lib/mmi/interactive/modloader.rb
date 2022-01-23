@@ -12,7 +12,7 @@ module Mmi
 						(["Update current modloader #{self.processor.modloader['name']}", :update_current] unless self.processor.parsed_modloader.is_a?(Mmi::Modloader::None)),
 						['quit',                                                          :quit          ],
 					].each do |name, result|
-						handler.option(name) do |s|
+						handler.option(name) do
 							result
 						end
 					end
@@ -45,7 +45,7 @@ module Mmi
 									['Install type',        :install_type],
 									['quit',                :quit        ],
 								].each do |name, result|
-									handler.option(name) do |s|
+									handler.option(name) do
 										result
 									end
 								end

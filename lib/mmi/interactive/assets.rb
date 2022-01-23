@@ -12,7 +12,7 @@ module Mmi
 					
 					choice = CLI::UI::Prompt.ask('Which asset do you want to change?') do |handler|
 						assets.each do |asset|
-							handler.option(asset.display_name) do |s|
+							handler.option(asset.display_name) do
 								asset
 							end
 						end
@@ -87,7 +87,7 @@ module Mmi
 							github_releases.select do |release|
 								release.assets.any?
 							end.each do |release|
-								handler.option(release.name) do |s|
+								handler.option(release.name) do
 									release
 								end
 							end
@@ -101,7 +101,7 @@ module Mmi
 							else
 								release_asset = CLI::UI::Prompt.ask('Choose an asset.') do |handler|
 									github_release.assets.each do |a|
-										handler.option(a.name) do |s|
+										handler.option(a.name) do
 											a
 										end
 									end
