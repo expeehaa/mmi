@@ -33,20 +33,20 @@ module Mmi
 					end
 					
 					case to_update
-					when :modloader
-						update_modloader
-					when :assets
-						update_assets
-					when :quit_save
-						file_path = CLI::UI::Prompt.ask('Filename', default: self.file_path, is_file: true)
-						yaml      = self.processor.options.to_yaml
-						
-						File.write(File.expand_path(file_path, Dir.pwd), yaml)
-						break
-					when :quit_discard
-						break
-					else
-						raise 'Consider yourself lucky, you found a bug.'
+						when :modloader
+							update_modloader
+						when :assets
+							update_assets
+						when :quit_save
+							file_path = CLI::UI::Prompt.ask('Filename', default: self.file_path, is_file: true)
+							yaml      = self.processor.options.to_yaml
+							
+							File.write(File.expand_path(file_path, Dir.pwd), yaml)
+							break
+						when :quit_discard
+							break
+						else
+							raise 'Consider yourself lucky, you found a bug.'
 					end
 				end
 			end

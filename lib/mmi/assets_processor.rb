@@ -25,10 +25,10 @@ module Mmi
 						type = source['type']
 						
 						case type
-						when 'github'
-							Source::Github.new(source)
-						else
-							raise Mmi::InvalidAttributeError, %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
+							when 'github'
+								Source::Github.new(source)
+							else
+								raise Mmi::InvalidAttributeError, %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
 						end
 					else
 						raise Mmi::MissingAttributeError, %Q{Missing "source" in asset #{index.inspect}.}

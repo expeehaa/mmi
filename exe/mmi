@@ -25,17 +25,17 @@ if ARGV.length>0
 	action       = action_param.nil? ? :install : action_param.to_sym
 	
 	case action
-	when :install
-		processor(file).install
-	when :validate
-		processor(file)
-		
-		puts 'File is valid.'
-	when :update
-		Mmi::Interactive.update(processor(file), file)
-	else
-		$stderr.puts "Unknown action: #{action_param.inspect}."
-		Kernel.exit 1
+		when :install
+			processor(file).install
+		when :validate
+			processor(file)
+			
+			puts 'File is valid.'
+		when :update
+			Mmi::Interactive.update(processor(file), file)
+		else
+			$stderr.puts "Unknown action: #{action_param.inspect}."
+			Kernel.exit 1
 	end
 else
 	puts 'No file given.'
