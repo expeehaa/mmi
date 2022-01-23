@@ -113,7 +113,7 @@ module Mmi
 				begin
 					Mmi::CachedDownload.download_cached(metadata_uri, metadata_path, sha512_uri: metadata_sha512sum_uri)
 				rescue OpenURI::HTTPError => e
-					Mmi.fail! 'Error when requesting available fabric installer versions.'
+					Mmi.fail! "Error when requesting available fabric installer versions.\n#{e.inspect}"
 				end
 				
 				xml = File.open(metadata_path) do |f|
