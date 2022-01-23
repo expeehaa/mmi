@@ -40,7 +40,7 @@ module Mmi
 								when 'fabric'
 									Modloader::Fabric.new(ml)
 								else
-									raise Mmi::InvalidAttributeError, %Q(Unkown modloader #{ml['name'].inspect}.)
+									raise Mmi::InvalidAttributeError, "Unkown modloader #{ml['name'].inspect}."
 							end
 						else
 							Modloader::None.new

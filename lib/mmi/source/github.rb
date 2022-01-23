@@ -79,7 +79,7 @@ module Mmi
 					
 					IO.copy_stream(stream, filepath)
 				rescue OpenURI::HTTPError => e
-					Mmi.fail! %Q(Error when requesting asset.\n#{e.inspect})
+					Mmi.fail! "Error when requesting asset.\n#{e.inspect}"
 				end
 			end
 			
