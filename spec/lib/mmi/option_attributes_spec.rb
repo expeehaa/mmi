@@ -88,9 +88,9 @@ RSpec.describe Mmi::OptionAttributes do
 			end
 			
 			it 'deletes the key-value pair in the options hash when setting nil' do
-				expect{test_instance_with_hash_options.test_1 = nil}.not_to change{test_instance_with_hash_options.options}
-				expect{test_instance_with_hash_options.test_2 = nil}.not_to change{test_instance_with_hash_options.options}
-				expect{test_instance_with_hash_options.test_3 = nil}.not_to change{test_instance_with_hash_options.options}
+				expect{test_instance_with_hash_options.test_1 = nil}.not_to(change{test_instance_with_hash_options.options})
+				expect{test_instance_with_hash_options.test_2 = nil}.not_to(change{test_instance_with_hash_options.options})
+				expect{test_instance_with_hash_options.test_3 = nil}.not_to(change{test_instance_with_hash_options.options})
 				expect{test_instance_with_hash_options.test_4 = nil}.    to change{test_instance_with_hash_options.options}.from({'asdf' => 10, 'donkey' => 'ee ah'}).to({'asdf' => 10})
 			end
 		end
