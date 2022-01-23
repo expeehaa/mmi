@@ -9,16 +9,16 @@ RSpec.describe Mmi::Semver do
 		end
 		
 		it 'has no default values for parameters' do
-			expect{Mmi::Semver.new      }.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 0, expected 3)')}}
-			expect{Mmi::Semver.new(1   )}.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 1, expected 3)')}}
-			expect{Mmi::Semver.new(1, 2)}.to raise_error ArgumentError, %r{#{Regexp.escape('wrong number of arguments (given 2, expected 3)')}}
+			expect{Mmi::Semver.new      }.to raise_error ArgumentError, /#{Regexp.escape('wrong number of arguments (given 0, expected 3)')}/
+			expect{Mmi::Semver.new(1   )}.to raise_error ArgumentError, /#{Regexp.escape('wrong number of arguments (given 1, expected 3)')}/
+			expect{Mmi::Semver.new(1, 2)}.to raise_error ArgumentError, /#{Regexp.escape('wrong number of arguments (given 2, expected 3)')}/
 		end
 	end
 	
 	describe '.parse' do
 		it 'takes an argument that responds to #strip' do
-			expect{Mmi::Semver.parse(1 )}.    to raise_error NoMethodError, %r{#{Regexp.escape("undefined method `strip' for 1:Integer")}}
-			expect{Mmi::Semver.parse([])}.    to raise_error NoMethodError, %r{#{Regexp.escape("undefined method `strip' for []:Array")}}
+			expect{Mmi::Semver.parse(1 )}.    to raise_error NoMethodError, /#{Regexp.escape("undefined method `strip' for 1:Integer")}/
+			expect{Mmi::Semver.parse([])}.    to raise_error NoMethodError, /#{Regexp.escape("undefined method `strip' for []:Array")}/
 		end
 		
 		it 'requires the string to match a regex' do
