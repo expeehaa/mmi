@@ -18,7 +18,7 @@ module Mmi
 			end
 			
 			def run!
-				while true
+				loop do
 					to_update = CLI::UI::Prompt.ask('What do you want to update?') do |handler|
 						[
 							['modloader'             , :modloader   ],

@@ -35,7 +35,7 @@ module Mmi
 					when Mmi::Modloader::None
 						CLI::UI.puts('There is currently no modloader set, please choose one first.', color: CLI::UI::Color::RED)
 					when Mmi::Modloader::Fabric
-						while true
+						loop do
 							choice = CLI::UI::Prompt.ask('What do you want to update?') do |handler|
 								[
 									['Installer version'  , :version     ],

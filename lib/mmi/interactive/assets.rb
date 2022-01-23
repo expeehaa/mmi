@@ -7,7 +7,7 @@ module Mmi
 	module Interactive
 		module Assets
 			def update_assets
-				while true
+				loop do
 					assets = processor.parsed_assets.parsed_items
 					
 					choice = CLI::UI::Prompt.ask('Which asset do you want to change?') do |handler|
