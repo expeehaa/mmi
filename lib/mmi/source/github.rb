@@ -30,16 +30,14 @@ module Mmi
 						if self.install_dir
 							if self.asset_id
 								# Pass.
-							else
-								if self.release
-									if self.file
-										# Pass.
-									else
-										raise Mmi::MissingAttributeError, 'Missing "source.file" from asset because "source.asset_id" is not provided.'
-									end
+							elsif self.release
+								if self.file
+									# Pass.
 								else
-									raise Mmi::MissingAttributeError, 'Missing "source.release" from asset because "source.asset_id" is not provided.'
+									raise Mmi::MissingAttributeError, 'Missing "source.file" from asset because "source.asset_id" is not provided.'
 								end
+							else
+								raise Mmi::MissingAttributeError, 'Missing "source.release" from asset because "source.asset_id" is not provided.'
 							end
 						else
 							raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
