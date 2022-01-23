@@ -28,7 +28,7 @@ module Mmi
 			if self.version
 				if version.major <= lib_version.major
 					if version.minor > lib_version.minor
-						Mmi.warn %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}. Some features might not be supported.}
+						Mmi.warn %Q(Config file specified "version" #{version}, but MMI is at #{lib_version}. Some features might not be supported.)
 					end
 					
 					ml = self.modloader
@@ -40,7 +40,7 @@ module Mmi
 								when 'fabric'
 									Modloader::Fabric.new(ml)
 								else
-									raise Mmi::InvalidAttributeError, %Q{Unkown modloader #{ml['name'].inspect}.}
+									raise Mmi::InvalidAttributeError, %Q(Unkown modloader #{ml['name'].inspect}.)
 							end
 						else
 							Modloader::None.new
@@ -51,13 +51,13 @@ module Mmi
 						if self.assets.is_a?(Hash)
 							@parsed_assets = AssetsProcessor.new(self.assets)
 						else
-							raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Hash but received #{self.assets.inspect}}
+							raise Mmi::InvalidAttributeError, %Q(Invalid "assets": expected Hash but received #{self.assets.inspect})
 						end
 					else
 						raise Mmi::MissingAttributeError, 'Missing "assets".'
 					end
 				else
-					raise Mmi::InvalidAttributeError, %Q{Config file specified "version" #{version}, but MMI is at #{lib_version}.}
+					raise Mmi::InvalidAttributeError, %Q(Config file specified "version" #{version}, but MMI is at #{lib_version}.)
 				end
 			else
 				raise Mmi::MissingAttributeError, 'Missing "version".'

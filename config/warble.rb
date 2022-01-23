@@ -5,7 +5,7 @@ Warbler::Config.new do |config|
 	# - *executable*: embed a web server and make the war executable
 	# - *runnable*: allows to run bin scripts e.g. `java -jar my.war -S rake -T`
 	# - *compiled*: compile .rb files to .class files
-	config.features = %w(gemjar executable)
+	config.features = %w[gemjar executable]
 	config.includes = FileList['mmi.gemspec']
 	
 	# Bundler support is built-in. If Warbler finds a Gemfile in the

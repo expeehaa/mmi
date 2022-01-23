@@ -36,7 +36,7 @@ RSpec.describe Mmi::OptionAttributes do
 		end
 		
 		it 'cannot be set' do
-			expect{test_instance_without_options.options = :some_other_test_symbol}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `options=' for })}}
+			expect{test_instance_without_options.options = :some_other_test_symbol}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `options=' for ))}}
 		end
 	end
 	
@@ -61,14 +61,14 @@ RSpec.describe Mmi::OptionAttributes do
 		
 		context 'the writer method' do
 			it 'fails if options is not a hash' do
-				expect{test_instance_without_options      .test_1 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for nil:NilClass})}}
-				expect{test_instance_with_non_hash_options.test_1 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for 5:Integer}   )}}
-				expect{test_instance_without_options      .test_2 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for nil:NilClass})}}
-				expect{test_instance_with_non_hash_options.test_2 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for 5:Integer}   )}}
-				expect{test_instance_without_options      .test_3 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for nil:NilClass})}}
-				expect{test_instance_with_non_hash_options.test_3 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for 5:Integer}   )}}
-				expect{test_instance_without_options      .test_4 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for nil:NilClass})}}
-				expect{test_instance_with_non_hash_options.test_4 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]=' for 5:Integer}   )}}
+				expect{test_instance_without_options      .test_1 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for nil:NilClass))}}
+				expect{test_instance_with_non_hash_options.test_1 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for 5:Integer)   )}}
+				expect{test_instance_without_options      .test_2 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for nil:NilClass))}}
+				expect{test_instance_with_non_hash_options.test_2 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for 5:Integer)   )}}
+				expect{test_instance_without_options      .test_3 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for nil:NilClass))}}
+				expect{test_instance_with_non_hash_options.test_3 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for 5:Integer)   )}}
+				expect{test_instance_without_options      .test_4 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for nil:NilClass))}}
+				expect{test_instance_with_non_hash_options.test_4 = 'goat'}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]=' for 5:Integer)   )}}
 			end
 			
 			it 'sets a value in the options hash with writer #test_1=' do
@@ -117,14 +117,14 @@ RSpec.describe Mmi::OptionAttributes do
 		
 		context 'the reader method' do
 			it 'fails if options is not a hash' do
-				expect{test_instance_without_options      .test_1}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]' for nil:NilClass}       )}}
-				expect{test_instance_with_non_hash_options.test_1}.to raise_error TypeError,     %r{#{Regexp.escape(%q{no implicit conversion of String into Integer})}}
-				expect{test_instance_without_options      .test_2}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]' for nil:NilClass}       )}}
-				expect{test_instance_with_non_hash_options.test_2}.to raise_error TypeError,     %r{#{Regexp.escape(%q{no implicit conversion of String into Integer})}}
-				expect{test_instance_without_options      .test_3}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]' for nil:NilClass}       )}}
-				expect{test_instance_with_non_hash_options.test_3}.to raise_error TypeError,     %r{#{Regexp.escape(%q{no implicit conversion of String into Integer})}}
-				expect{test_instance_without_options      .test_4}.to raise_error NoMethodError, %r{#{Regexp.escape(%q{undefined method `[]' for nil:NilClass}       )}}
-				expect{test_instance_with_non_hash_options.test_4}.to raise_error TypeError,     %r{#{Regexp.escape(%q{no implicit conversion of String into Integer})}}
+				expect{test_instance_without_options      .test_1}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]' for nil:NilClass)       )}}
+				expect{test_instance_with_non_hash_options.test_1}.to raise_error TypeError,     %r{#{Regexp.escape(%q(no implicit conversion of String into Integer))}}
+				expect{test_instance_without_options      .test_2}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]' for nil:NilClass)       )}}
+				expect{test_instance_with_non_hash_options.test_2}.to raise_error TypeError,     %r{#{Regexp.escape(%q(no implicit conversion of String into Integer))}}
+				expect{test_instance_without_options      .test_3}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]' for nil:NilClass)       )}}
+				expect{test_instance_with_non_hash_options.test_3}.to raise_error TypeError,     %r{#{Regexp.escape(%q(no implicit conversion of String into Integer))}}
+				expect{test_instance_without_options      .test_4}.to raise_error NoMethodError, %r{#{Regexp.escape(%q(undefined method `[]' for nil:NilClass)       )}}
+				expect{test_instance_with_non_hash_options.test_4}.to raise_error TypeError,     %r{#{Regexp.escape(%q(no implicit conversion of String into Integer))}}
 			end
 			
 			it 'gets the correct value' do
