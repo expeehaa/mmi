@@ -12,7 +12,7 @@ module Mmi
 					result = self.options[name]
 					
 					if result.nil? && block_given?
-						yield
+						block.call
 					else
 						result
 					end
