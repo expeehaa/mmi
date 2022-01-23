@@ -184,6 +184,10 @@ Style/BarePercentLiterals:
 Style/EmptyBlockParameter:
   Enabled: false
 
+Style/EmptyElse:
+  Enabled: true
+  EnforcedStyle: empty
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
