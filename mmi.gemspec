@@ -19,9 +19,9 @@ Gem::Specification.new do |spec|
 	# Pessimistic guess, versions below may work as well.
 	spec.required_ruby_version = '>= 3.0'
 	
-	spec.add_dependency 'cli-ui',     '~> 1.5.0'
-	spec.add_dependency 'github_api', '~> 0.19'
-	spec.add_dependency 'nokogiri',   '~> 1.11'
+	spec.add_dependency 'cli-ui',   '~> 1.5.0'
+	spec.add_dependency 'nokogiri', '~> 1.11'
+	spec.add_dependency 'octokit',  '~> 4.22'
 	
 	spec.add_development_dependency 'pry',     '~> 0.13'
 	spec.add_development_dependency 'rake',    '~> 13.0'

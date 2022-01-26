@@ -1,6 +1,6 @@
 require 'cli/ui'
-require 'github_api'
 
+require 'mmi/github_api'
 require 'mmi/source/github'
 
 module Mmi
@@ -81,7 +81,7 @@ module Mmi
 			def update_asset(asset)
 				case asset
 					when Mmi::Source::Github
-						github_releases = ::Github::Client::Repos::Releases.new.list(owner: asset.owner, repo: asset.repo, per_page: 100)
+						github_releases = Mmi::GithubApi.client.releases("#{asset.owner}/#{asset.repo}")
 						
 						github_release = CLI::UI::Prompt.ask('Choose a release.') do |handler|
 							github_releases.select do |release|

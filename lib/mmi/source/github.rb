@@ -1,7 +1,7 @@
 require 'fileutils'
-require 'github_api'
 require 'open-uri'
 
+require 'mmi/github_api'
 require 'mmi/option_attributes'
 
 module Mmi
@@ -55,7 +55,7 @@ module Mmi
 			end
 			
 			def cached_asset_response
-				@cached_asset_response ||= ::Github::Client::Repos::Releases::Assets.new.get(owner: self.owner, repo: self.repo, id: self.asset_id)
+				@cached_asset_response ||= Mmi::GithubApi.client.release_asset("/repos/#{self.owner}/#{self.repo}/releases/assets/#{self.asset_id}")
 			end
 			
 			def download_url
