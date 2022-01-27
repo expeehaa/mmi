@@ -21,6 +21,7 @@ Style/Documentation:
     - 'lib/mmi/interactive/modloader.rb'
     - 'lib/mmi/interactive/updater.rb'
     - 'lib/mmi/mod_file_processor.rb'
+    - 'lib/mmi/modrinth_api.rb'
     - 'lib/mmi/modloader/fabric.rb'
     - 'lib/mmi/modloader/none.rb'
     - 'lib/mmi/option_attributes.rb'
