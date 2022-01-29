@@ -36,6 +36,7 @@ module Mmi
 				source_type = CLI::UI::Prompt.ask('Choose a source type.') do |handler|
 					%w[
 						github
+						modrinth
 					].each do |type|
 						handler.option(type, &:to_sym)
 					end
@@ -64,6 +65,35 @@ module Mmi
 						options['source'].compact!
 						
 						source = Mmi::Source::Github.new(options['source'])
+						
+						if update_asset(source)
+							self.processor.parsed_assets.items.push(options)
+							self.processor.parsed_assets.parsed_items.push(source)
+							
+							true
+						else
+							CLI::UI.puts('Aborting asset addition. No change will be made.', color: CLI::UI::Color::RED)
+							
+							false
+						end
+					when :modrinth
+						options = {
+							'source' => {
+								'type'         => 'modrinth',
+								'version'      => '0',
+								'version_file' => '0',
+							},
+						}
+						
+						options['source']['name'       ] = CLI::UI::Prompt.ask('What is the name of the mod in the Modrinth URL?').strip
+						options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+						options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+							filename == '' ? nil : filename
+						end
+						
+						options['source'].compact!
+						
+						source = Mmi::Source::Modrinth.new(options['source'])
 						
 						if update_asset(source)
 							self.processor.parsed_assets.items.push(options)
@@ -117,6 +147,43 @@ module Mmi
 										asset.file    = nil
 										
 										asset.asset_id = release_asset.id
+										
+										true
+								end
+						end
+					when Mmi::Source::Modrinth
+						mod_version = CLI::UI::Prompt.ask('Choose a version.') do |handler|
+							asset.cached_mod_versions.select do |version|
+								version['files'].any?
+							end.each do |version|
+								handler.option("#{version['name']} (for game versions #{version['game_versions'].join('/')})") do
+									version
+								end
+							end
+							
+							handler.option('quit', &:to_sym)
+						end
+						
+						case mod_version
+							when :quit
+								false
+							else
+								version_file = CLI::UI::Prompt.ask('Choose a version file.') do |handler|
+									mod_version['files'].each do |file|
+										handler.option(file['filename']) do
+											file
+										end
+									end
+									
+									handler.option('quit', &:to_sym)
+								end
+								
+								case version_file
+									when :quit
+										false
+									else
+										asset.version      = mod_version['name']
+										asset.version_file = version_file['filename']
 										
 										true
 								end
