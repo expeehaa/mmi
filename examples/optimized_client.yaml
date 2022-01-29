@@ -30,3 +30,10 @@ assets:
       file: sodium-fabric-mc1.16.3-0.1.0.jar
       install_dir: mods
       filename: sodium-1.16.3-0.1.0.jar
+  - source:
+      type: modrinth
+      name: ferrite-core
+      version: 2.1.0
+      version_file: ferritecore-2.1.0-fabric.jar
+      install_dir: mods
+      filename: ferritecore-4.0.0.jar

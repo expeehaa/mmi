@@ -27,3 +27,4 @@ Style/Documentation:
     - 'lib/mmi/option_attributes.rb'
     - 'lib/mmi/semver.rb'
     - 'lib/mmi/source/github.rb'
+    - 'lib/mmi/source/modrinth.rb'
