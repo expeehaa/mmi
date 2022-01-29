@@ -34,8 +34,8 @@ module Mmi
 			
 			def add_asset
 				source_type = CLI::UI::Prompt.ask('Choose a source type.') do |handler|
-					[
-						'github',
+					%w[
+						github
 					].each do |type|
 						handler.option(type, &:to_sym)
 					end
