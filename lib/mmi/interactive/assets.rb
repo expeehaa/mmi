@@ -27,7 +27,7 @@ module Mmi
 						when :add
 							add_asset
 						else
-							update_asset(choice)
+							update_asset_version(choice)
 					end
 				end
 			end
@@ -86,7 +86,7 @@ module Mmi
 							[options, Mmi::Source::Modrinth.new(options['source'])]
 					end
 				
-				if update_asset(source)
+				if update_asset_version(source)
 					self.processor.parsed_assets.items.push(opts)
 					self.processor.parsed_assets.parsed_items.push(source)
 					
@@ -98,7 +98,7 @@ module Mmi
 				end
 			end
 			
-			def update_asset(asset)
+			def update_asset_version(asset)
 				case asset
 					when Mmi::Source::Github
 						github_releases = Mmi::GithubApi.client.releases("#{asset.owner}/#{asset.repo}")
