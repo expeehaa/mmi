@@ -37,6 +37,7 @@ module Mmi
 					%w[
 						github
 						modrinth
+						url
 					].each do |type|
 						handler.option(type, &:to_sym)
 					end
@@ -84,6 +85,22 @@ module Mmi
 							options['source'].compact!
 							
 							[options, Mmi::Source::Modrinth.new(options['source'])]
+						when :url
+							options = {
+								'source' => {
+									'type' => 'url',
+									'url'  => '',
+								},
+							}
+							
+							options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+							options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+								filename == '' ? nil : filename
+							end
+							
+							options['source'].compact!
+							
+							[options, Mmi::Source::Url.new(options['source'])]
 					end
 				
 				if update_asset_version(source)
@@ -178,6 +195,8 @@ module Mmi
 										true
 								end
 						end
+					when Mmi::Source::Url
+						asset.url = CLI::UI::Prompt.ask('What is the URL of the file that should be downloaded?', default: asset.url).strip
 					else
 						CLI::UI.puts('This asset cannot be updated.', color: CLI::UI::Color::RED)
 						
