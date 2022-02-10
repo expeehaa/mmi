@@ -28,3 +28,4 @@ Style/Documentation:
     - 'lib/mmi/semver.rb'
     - 'lib/mmi/source/github.rb'
     - 'lib/mmi/source/modrinth.rb'
+    - 'lib/mmi/source/url.rb'

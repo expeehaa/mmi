@@ -1,6 +1,7 @@
 require 'mmi/option_attributes'
 require 'mmi/source/github'
 require 'mmi/source/modrinth'
+require 'mmi/source/url'
 
 module Mmi
 	class AssetsProcessor
@@ -30,6 +31,8 @@ module Mmi
 								Source::Github.new(source)
 							when 'modrinth'
 								Source::Modrinth.new(source)
+							when 'url'
+								Source::Url.new(source)
 							else
 								raise Mmi::InvalidAttributeError, %Q(Invalid "source.type" in asset #{index.inspect}: #{type.inspect})
 						end

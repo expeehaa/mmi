@@ -37,3 +37,8 @@ assets:
       version_file: ferritecore-2.1.0-fabric.jar
       install_dir: mods
       filename: ferritecore-4.0.0.jar
+  - source:
+      type: url
+      url: https://raw.githubusercontent.com/expeehaa/mmi/master/README.adoc
+      install_dir: '.'
+      filename: readme.adoc
