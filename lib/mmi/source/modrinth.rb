@@ -42,12 +42,8 @@ module Mmi
 				end
 			end
 			
-			def cached_mod_id
-				@cached_mod_id ||= Mmi::ModrinthApi.mod(self.name)['id']
-			end
-			
 			def cached_mod_versions
-				@cached_mod_versions ||= Mmi::ModrinthApi.mod_versions(cached_mod_id)
+				@cached_mod_versions ||= Mmi::ModrinthApi.project_versions(self.name)
 			end
 			
 			def download_url
