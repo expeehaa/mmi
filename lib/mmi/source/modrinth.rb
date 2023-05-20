@@ -49,7 +49,9 @@ module Mmi
 			def download_url
 				cached_mod_versions.select do |version|
 					version['name'] == self.version
-				end.first['files'].select do |files|
+				end.map do |version|
+					version['files']
+				end.flatten(1).select do |files|
 					files['filename'] == self.version_file
 				end.first['url'].gsub(/ /, '%20')
 			end
