@@ -160,7 +160,18 @@ module Mmi
 						end
 					when Mmi::Source::Modrinth
 						mod_version = CLI::UI::Prompt.ask('Choose a version.') do |handler|
-							asset.cached_mod_versions.select do |version|
+							version_filter_parameters =
+								case processor.parsed_modloader
+									when Mmi::Modloader::Fabric
+										{
+											loader:       'fabric',
+											game_version: processor.parsed_modloader.mcversion,
+										}
+									else
+										{}
+								end
+							
+							asset.cached_mod_versions(**version_filter_parameters).select do |version|
 								version['files'].any?
 							end.each do |version|
 								handler.option("#{version['name']} (for game versions #{version['game_versions'].join('/')})") do

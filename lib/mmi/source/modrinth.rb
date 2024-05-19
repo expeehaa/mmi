@@ -42,8 +42,8 @@ module Mmi
 				end
 			end
 			
-			def cached_mod_versions
-				@cached_mod_versions ||= Mmi::ModrinthApi.project_versions(self.name)
+			def cached_mod_versions(loader: nil, game_version: nil)
+				(@cached_mod_versions ||= Hash.new)[{loader: loader, game_version: game_version}] ||= Mmi::ModrinthApi.project_versions(self.name, loader: loader, game_version: game_version)
 			end
 			
 			def download_url
