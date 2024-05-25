@@ -2,6 +2,7 @@ require 'fileutils'
 require 'nokogiri'
 
 require 'mmi/cached_download'
+require 'mmi/constants'
 require 'mmi/option_attributes'
 
 module Mmi
@@ -12,7 +13,7 @@ module Mmi
 			opt_accessor :version
 			opt_accessor :install_type
 			opt_accessor :mcversion,    'minecraft_version'
-			opt_accessor(:install_dir                       ) { Mmi.minecraft_dir }
+			opt_accessor(:install_dir                       ) { Mmi::Constants.minecraft_dir }
 			opt_accessor(:download_mc,  'download_minecraft') { false             }
 			
 			def initialize(options)
@@ -65,7 +66,7 @@ module Mmi
 			end
 			
 			def metadata_path
-				File.join(Mmi.cache_dir, 'fabric_maven_metadata.xml')
+				File.join(Mmi::Constants.cache_dir, 'fabric_maven_metadata.xml')
 			end
 			
 			def installer_uri
@@ -77,7 +78,7 @@ module Mmi
 			end
 			
 			def installer_path
-				File.join(Mmi.cache_dir, "fabric-installer-#{self.version}.jar")
+				File.join(Mmi::Constants.cache_dir, "fabric-installer-#{self.version}.jar")
 			end
 			
 			def absolute_install_dir

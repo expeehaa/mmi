@@ -2,6 +2,8 @@ require 'digest'
 require 'fileutils'
 require 'open-uri'
 
+require 'mmi/constants'
+
 module Mmi
 	module CachedDownload
 		class << self
@@ -52,7 +54,7 @@ module Mmi
 			private
 			
 			def ensure_cache_dir_exists!
-				FileUtils.mkdir_p(Mmi.cache_dir)
+				FileUtils.mkdir_p(Mmi::Constants.cache_dir)
 			end
 		end
 	end

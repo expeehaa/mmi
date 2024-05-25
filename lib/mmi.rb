@@ -2,17 +2,6 @@ require 'mmi/version'
 require 'mmi/mod_file_processor'
 
 module Mmi
-	MMI_CACHE_DIR = File.join(Dir.home, '.cache', 'mmi')
-	MINECRAFT_DIR = File.join(Dir.home, '.minecraft')
-	
-	def self.cache_dir
-		MMI_CACHE_DIR
-	end
-	
-	def self.minecraft_dir
-		MINECRAFT_DIR
-	end
-	
 	class ValidationError < StandardError; end
 	class MissingAttributeError < ValidationError; end
 	class InvalidAttributeError < ValidationError; end

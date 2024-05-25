@@ -1,3 +1,4 @@
+require 'mmi/constants'
 require 'mmi/option_attributes'
 require 'mmi/source/github'
 require 'mmi/source/modrinth'
@@ -7,7 +8,7 @@ module Mmi
 	class AssetsProcessor
 		include OptionAttributes
 		
-		opt_accessor(:profile_dir) { Mmi.minecraft_dir }
+		opt_accessor(:profile_dir) { Mmi::Constants.minecraft_dir }
 		opt_accessor(:items      ) { []                }
 		
 		attr_reader :parsed_items
