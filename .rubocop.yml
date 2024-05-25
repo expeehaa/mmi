@@ -13,6 +13,11 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+# Gemspec
+
+Gemspec/OrderedDependencies:
+  Enabled: false
+
 # Layout
 
 Layout/AccessModifierIndentation:
