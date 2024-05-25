@@ -209,6 +209,7 @@ Style/EmptyBlockParameter:
 Style/EmptyElse:
   Enabled: true
   EnforcedStyle: empty
+  AllowComments: true
 
 Style/FrozenStringLiteralComment:
   Enabled: false
