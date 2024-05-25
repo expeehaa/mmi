@@ -115,15 +115,11 @@ There, within the same minor version, backwards compatibility can be expected, b
 
 == Contributing
 
-Contributions are very welcome, as well as feature/bug requests.
-
-In case you want to implement a feature, it would be best to create an issue beforehand so that we can discuss it.
-This reduces the chance of a pull request being rejected.
+Contributions are very welcome, including feature/bug requests.
+Before implementing a (larger) feature, consider opening a ticket to discuss the implementation or feature.
 
 If you intend to create a pull request, please choose a branch name describing its changes (i.e. not some generic term like `master` or `fix`, but e.g. `fix_typo` or `add_interactive_update_command`).
 
-Please be aware that I have a very specific code style and am interested in keeping it in this repository.
-Some basic rules are specified in the `.editorconfig` file, which your editor should support.
-Additionally, Rubocop has been configured using the existing code and every commit should pass Rubocop’s inspection.
-There most likely are a lot of Rubocop rules that are currently not triggered and therefore not configured.
-In such a case, either try to derive a style from existing code or feel free to ask.
+Please try to follow the existing coding style as close as possible.
+Some basic rules are specified in the `.editorconfig` file, and Rubocop is also available to help.
+Every commit should pass Rubocop’s inspection.
