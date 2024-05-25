@@ -25,6 +25,7 @@ Style/Documentation:
     - 'lib/mmi/modloader/fabric.rb'
     - 'lib/mmi/modloader/none.rb'
     - 'lib/mmi/option_attributes.rb'
+    - 'lib/mmi/property_attributes.rb'
     - 'lib/mmi/semver.rb'
     - 'lib/mmi/source/github.rb'
     - 'lib/mmi/source/modrinth.rb'
