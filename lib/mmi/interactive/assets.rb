@@ -8,12 +8,12 @@ module Mmi
 		module Assets
 			def update_assets
 				loop do
-					assets = processor.parsed_assets.parsed_items
+					assets = processor.assets.items
 					
 					choice = CLI::UI::Prompt.ask('Which asset do you want to change?') do |handler|
 						assets.each do |asset|
-							handler.option(asset.display_name) do
-								asset
+							handler.option(asset.source.display_name) do
+								asset.source
 							end
 						end
 						
@@ -27,12 +27,27 @@ module Mmi
 						when :add
 							add_asset
 						else
-							update_asset_version(choice)
+							update_asset_source_version(choice)
 					end
 				end
 			end
 			
 			def add_asset
+				if (source = create_source)
+					asset = Mmi::Asset.parse({
+						'source' => source.to_h,
+					})
+					
+					self.processor.assets['items'].push(asset.to_h)
+					self.processor.assets.parse!
+				else
+					CLI::UI.puts('Aborting asset addition. No change will be made.')
+					
+					false
+				end
+			end
+			
+			def create_source
 				source_type = CLI::UI::Prompt.ask('Choose a source type.') do |handler|
 					%w[
 						github
@@ -45,80 +60,68 @@ module Mmi
 					handler.option('quit', &:to_sym)
 				end
 				
-				opts, source =
+				source =
 					case source_type
 						when :quit
 							return false
 						when :github
 							options = {
-								'source' => {
-									'type'     => 'github',
-									'asset_id' => 0,
-								},
+								'type'     => 'github',
+								'asset_id' => 0,
 							}
 							
-							options['source']['owner'      ] = CLI::UI::Prompt.ask('Who is the owner of the source repository?').strip
-							options['source']['repo'       ] = CLI::UI::Prompt.ask('What is the name of the source repository?').strip
-							options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
-							options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+							options['owner'      ] = CLI::UI::Prompt.ask('Who is the owner of the source repository?').strip
+							options['repo'       ] = CLI::UI::Prompt.ask('What is the name of the source repository?').strip
+							options['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+							options['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
-							options['source'].compact!
+							options.compact!
 							
-							[options, Mmi::Source::Github.new(options['source'])]
+							Mmi::Source::Github.parse(options)
 						when :modrinth
 							options = {
-								'source' => {
-									'type'         => 'modrinth',
-									'version'      => '0',
-									'version_file' => '0',
-								},
+								'type'         => 'modrinth',
+								'version'      => '0',
+								'version_file' => '0',
 							}
 							
-							options['source']['name'       ] = CLI::UI::Prompt.ask('What is the name of the mod in the Modrinth URL?').strip
-							options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
-							options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+							options['name'       ] = CLI::UI::Prompt.ask('What is the name of the mod in the Modrinth URL?').strip
+							options['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+							options['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
-							options['source'].compact!
+							options.compact!
 							
-							[options, Mmi::Source::Modrinth.new(options['source'])]
+							Mmi::Source::Modrinth.parse(options)
 						when :url
 							options = {
-								'source' => {
-									'type' => 'url',
-									'url'  => '',
-								},
+								'type' => 'url',
 							}
 							
-							options['source']['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
-							options['source']['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
+							options['install_dir'] = CLI::UI::Prompt.ask('In which directory should the asset be placed?', default: 'mods').strip
+							options['filename'   ] = CLI::UI::Prompt.ask('Under which filename should the asset be saved? (leave empty for release asset name)', allow_empty: true).strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
-							options['source'].compact!
+							options.compact!
 							
-							[options, Mmi::Source::Url.new(options['source'])]
+							Mmi::Source::Url.parse(options)
 					end
 				
-				if update_asset_version(source)
-					self.processor.parsed_assets.items.push(opts)
-					self.processor.parsed_assets.parsed_items.push(source)
-					
-					true
+				if update_asset_source_version(source)
+					source
 				else
-					CLI::UI.puts('Aborting asset addition. No change will be made.', color: CLI::UI::Color::RED)
-					
-					false
+					nil
 				end
 			end
 			
-			def update_asset_version(asset)
-				case asset
+			def update_asset_source_version(source)
+				case source
 					when Mmi::Source::Github
-						github_releases = Mmi::GithubApi.client.releases("#{asset.owner}/#{asset.repo}")
+						github_releases = Mmi::GithubApi.client.releases("#{source.owner}/#{source.repo}")
 						
 						github_release = CLI::UI::Prompt.ask('Choose a release.') do |handler|
 							github_releases.select do |release|
@@ -150,10 +153,11 @@ module Mmi
 									when :quit
 										false
 									else
-										asset.release = nil
-										asset.file    = nil
-										
-										asset.asset_id = release_asset.id
+										source.update_properties!({
+											release:  nil,
+											file:     nil,
+											asset_id: release_asset.id,
+										})
 										
 										true
 								end
@@ -161,17 +165,17 @@ module Mmi
 					when Mmi::Source::Modrinth
 						mod_version = CLI::UI::Prompt.ask('Choose a version.') do |handler|
 							version_filter_parameters =
-								case processor.parsed_modloader
+								case processor.modloader
 									when Mmi::Modloader::Fabric
 										{
 											loader:       'fabric',
-											game_version: processor.parsed_modloader.mcversion,
+											game_version: processor.modloader.minecraft_version,
 										}
 									else
 										{}
 								end
 							
-							asset.cached_mod_versions(**version_filter_parameters).select do |version|
+							source.cached_mod_versions(**version_filter_parameters).select do |version|
 								version['files'].any?
 							end.each do |version|
 								handler.option("#{version['name']} (for game versions #{version['game_versions'].join('/')})") do
@@ -200,14 +204,18 @@ module Mmi
 									when :quit
 										false
 									else
-										asset.version      = mod_version['name']
-										asset.version_file = version_file['filename']
+										source.update_properties!({
+											version:      mod_version['name'],
+											version_file: version_file['filename'],
+										})
 										
 										true
 								end
 						end
 					when Mmi::Source::Url
-						asset.url = CLI::UI::Prompt.ask('What is the URL of the file that should be downloaded?', default: asset.url).strip
+						url = CLI::UI::Prompt.ask('What is the URL of the file that should be downloaded?', default: source.url).strip
+						
+						source.update_properties!({url: url})
 					else
 						CLI::UI.puts('This asset cannot be updated.', color: CLI::UI::Color::RED)
 						

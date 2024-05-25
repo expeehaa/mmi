@@ -39,7 +39,7 @@ module Mmi
 							update_assets
 						when :quit_save
 							file_path = CLI::UI::Prompt.ask('Filename', default: self.file_path, is_file: true)
-							yaml      = self.processor.options.to_yaml
+							yaml      = self.processor.to_h.to_yaml
 							
 							File.write(File.expand_path(file_path, Dir.pwd), yaml)
 							break

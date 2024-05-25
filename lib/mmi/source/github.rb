@@ -2,53 +2,23 @@ require 'fileutils'
 require 'open-uri'
 
 require 'mmi/github_api'
-require 'mmi/option_attributes'
+require 'mmi/property_attributes'
 
 module Mmi
 	module Source
 		class Github
-			include Mmi::OptionAttributes
+			prepend Mmi::PropertyAttributes
 			
-			opt_accessor :owner
-			opt_accessor :repo
-			opt_accessor :install_dir
-			opt_accessor :filename
+			property :owner
+			property :repo
+			property :install_dir
+			property :filename, required: false
 			
-			opt_accessor :asset_id
-			opt_accessor :release
-			opt_accessor :file
+			property :asset_id, conflicts: %w[release file]
+			property :release,  conflicts: 'asset_id', requires: 'file'
+			property :file,     conflicts: 'asset_id', requires: 'release'
 			
-			def initialize(options)
-				@options = options
-				
-				parse!
-			end
-			
-			def parse!
-				if self.owner
-					if self.repo
-						if self.install_dir
-							if self.asset_id
-								# Pass.
-							elsif self.release
-								if self.file
-									# Pass.
-								else
-									raise Mmi::MissingAttributeError, 'Missing "source.file" from asset because "source.asset_id" is not provided.'
-								end
-							else
-								raise Mmi::MissingAttributeError, 'Missing "source.release" from asset because "source.asset_id" is not provided.'
-							end
-						else
-							raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
-						end
-					else
-						raise Mmi::MissingAttributeError, 'Missing "source.repo" from asset.'
-					end
-				else
-					raise Mmi::MissingAttributeError, 'Missing "source.owner" from asset.'
-				end
-			end
+			# TODO: Ensure that either :asset_id or [:release, :file] is given.
 			
 			def repository_url
 				"https://github.com/#{self.owner}/#{self.repo}"

@@ -12,7 +12,7 @@ def processor(file)
 	content = Psych.load_file(file)
 	
 	begin
-		Mmi::ModFileProcessor.new(content)
+		Mmi::ModFileProcessor.parse(content)
 	rescue Mmi::ValidationError => e
 		puts e
 		Kernel.exit 1

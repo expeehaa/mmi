@@ -9,7 +9,7 @@ module Mmi
 			def update_modloader
 				choice = CLI::UI::Prompt.ask('What do you want to do?') do |handler|
 					[
-						(["Update current modloader #{self.processor.modloader['name']}", :update_current] unless self.processor.parsed_modloader.is_a?(Mmi::Modloader::None)),
+						(["Update current modloader #{self.processor.modloader['name']}", :update_current] unless self.processor.modloader.is_a?(Mmi::Modloader::None)),
 						['quit',                                                          :quit          ],
 					].each do |name, result|
 						handler.option(name) do
@@ -29,7 +29,7 @@ module Mmi
 			end
 			
 			def update_modloader_current
-				ml = self.processor.parsed_modloader
+				ml = self.processor.modloader
 				
 				case ml
 					when Mmi::Modloader::None
@@ -38,12 +38,12 @@ module Mmi
 						loop do
 							choice = CLI::UI::Prompt.ask('What do you want to update?') do |handler|
 								[
-									['Installer version',   :version     ],
-									['Minecraft version',   :mc_version  ],
-									['Download Minecraft?', :download_mc ],
-									['Install directory',   :install_dir ],
-									['Install type',        :install_type],
-									['quit',                :quit        ],
+									['Installer version',   :version           ],
+									['Minecraft version',   :minecraft_version ],
+									['Download Minecraft?', :download_minecraft],
+									['Install directory',   :install_dir       ],
+									['Install type',        :install_type      ],
+									['quit',                :quit              ],
 								].each do |name, result|
 									handler.option(name) do
 										result
@@ -65,9 +65,9 @@ module Mmi
 										when :quit
 											# Pass.
 										else
-											ml.version = choice2
+											ml.update_properties!({version: choice2})
 									end
-								when :mc_version
+								when :minecraft_version
 									choice2 =
 										begin
 											CLI::UI::Prompt.ask('Which Minecraft version do you need?')
@@ -79,12 +79,12 @@ module Mmi
 										when :quit
 											# Pass.
 										else
-											ml.mcversion = choice2
+											ml.update_properties!({minecraft_version: choice2})
 									end
-								when :download_mc
+								when :download_minecraft
 									choice2 =
 										begin
-											CLI::UI::Prompt.confirm('Download minecraft when installing the modloader? (Ctrl+C for no change)', default: ml.download_mc)
+											CLI::UI::Prompt.confirm('Download minecraft when installing the modloader? (Ctrl+C for no change)', default: ml.download_minecraft)
 										rescue Interrupt
 											:quit
 										end
@@ -93,7 +93,7 @@ module Mmi
 										when :quit
 											# Pass.
 										else
-											ml.download_mc = choice2
+											ml.update_properties!({download_minecraft: choice2})
 									end
 								when :install_dir
 									choice2 =
@@ -107,7 +107,7 @@ module Mmi
 										when :quit
 											# Pass.
 										else
-											ml.install_dir = choice2.strip.empty? ? nil : choice2
+											ml.update_properties!({install_dir: choice2.strip.empty? ? nil : choice2})
 									end
 								when :install_type
 									choice2 = CLI::UI::Prompt.ask('What type of installation do you want?') do |handler|
@@ -122,7 +122,7 @@ module Mmi
 										when :quit
 											# Pass.
 										else
-											ml.install_type = choice2
+											ml.update_properties!({install_type: choice2})
 									end
 								when :quit
 									break

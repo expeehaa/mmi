@@ -3,54 +3,36 @@ require 'nokogiri'
 
 require 'mmi/cached_download'
 require 'mmi/constants'
-require 'mmi/option_attributes'
+require 'mmi/property_attributes'
 
 module Mmi
 	module Modloader
 		class Fabric
-			include Mmi::OptionAttributes
+			prepend Mmi::PropertyAttributes
 			
-			opt_accessor :version
-			opt_accessor :install_type
-			opt_accessor :mcversion,    'minecraft_version'
-			opt_accessor(:install_dir                       ) { Mmi::Constants.minecraft_dir }
-			opt_accessor(:download_mc,  'download_minecraft') { false             }
+			property :version
+			property :install_type,                                              validate: :validate_install_type
+			property :minecraft_version
+			property :install_dir,        default: Mmi::Constants.minecraft_dir
+			property :download_minecraft, default: false,                        validate: :validate_download_minecraft
 			
-			def initialize(options)
-				@options = options
-				
-				parse!
-			end
-			
-			def parse!
-				if self.version
-					if self.install_type
-						if allowed_install_types.include?(self.install_type)
-							if self.mcversion
-								if [true, false].include?(self.download_mc)
-									# Pass.
-								else
-									raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.download_minecraft". Expecting true or false, got #{self.download_mc.inspect}.}
-								end
-							else
-								raise Mmi::MissingAttributeError, 'Missing "modloader.minecraft_version".'
-							end
-						else
-							raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.install_type". Expecting "client" or "server", got #{self.install_type.inspect}.}
-						end
-					else
-						raise Mmi::MissingAttributeError, 'Missing "modloader.install_type".'
-					end
-				else
-					raise Mmi::MissingAttributeError, 'Missing "modloader.version".'
-				end
-			end
-			
-			def allowed_install_types
+			def self.allowed_install_types
 				%w[
 					client
 					server
 				]
+			end
+			
+			def self.validate_install_type(value, errors)
+				if !allowed_install_types.include?(value)
+					errors << %Q{modloader "install_type" must be one of #{allowed_install_types.map(&:inspect).join(', ')}}
+				end
+			end
+			
+			def self.validate_download_minecraft(value, errors)
+				if ![true, false].include?(value)
+					errors << 'modloader "download_minecraft" must be true or false'
+				end
 			end
 			
 			def base_uri
@@ -98,7 +80,7 @@ module Mmi
 			def run_installer
 				FileUtils.mkdir_p(absolute_install_dir)
 				
-				if system('java', '-jar', installer_path, self.install_type, '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.mcversion, self.download_mc ? '-downloadMinecraft' : '')
+				if system('java', '-jar', installer_path, self.install_type, '-dir', absolute_install_dir, '-noprofile', '-mcversion', self.minecraft_version, self.download_minecraft ? '-downloadMinecraft' : '')
 					# Pass.
 				else
 					Mmi.fail! 'Failed to install Fabric modloader.'

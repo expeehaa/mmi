@@ -2,45 +2,18 @@ require 'fileutils'
 require 'open-uri'
 
 require 'mmi/modrinth_api'
-require 'mmi/option_attributes'
+require 'mmi/property_attributes'
 
 module Mmi
 	module Source
 		class Modrinth
-			include Mmi::OptionAttributes
+			prepend Mmi::PropertyAttributes
 			
-			opt_accessor :name
-			opt_accessor :version
-			opt_accessor :version_file
-			
-			opt_accessor :install_dir
-			opt_accessor :filename
-			
-			def initialize(options)
-				@options = options
-				
-				parse!
-			end
-			
-			def parse!
-				if self.name
-					if self.version
-						if self.version_file
-							if self.install_dir
-								# Pass.
-							else
-								raise Mmi::MissingAttributeError, 'Missing "source.install_dir" from asset.'
-							end
-						else
-							raise Mmi::MissingAttributeError, 'Missing "source.version_file" from asset.'
-						end
-					else
-						raise Mmi::MissingAttributeError, 'Missing "source.version" from asset.'
-					end
-				else
-					raise Mmi::MissingAttributeError, 'Missing "source.name" from asset.'
-				end
-			end
+			property :name
+			property :version
+			property :version_file
+			property :install_dir
+			property :filename, required: false
 			
 			def cached_mod_versions(loader: nil, game_version: nil)
 				(@cached_mod_versions ||= Hash.new)[{loader: loader, game_version: game_version}] ||= Mmi::ModrinthApi.project_versions(self.name, loader: loader, game_version: game_version)

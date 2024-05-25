@@ -13,6 +13,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'lib/mmi.rb'
+    - 'lib/mmi/asset.rb'
     - 'lib/mmi/assets_processor.rb'
     - 'lib/mmi/cached_download.rb'
     - 'lib/mmi/constants.rb'
