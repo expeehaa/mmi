@@ -17,8 +17,8 @@ RSpec.describe Mmi::Semver do
 	
 	describe '.parse' do
 		it 'takes an argument that responds to #strip' do
-			expect{Mmi::Semver.parse(1 )}.    to raise_error NoMethodError, /undefined method \`strip\' for (1:|an instance of )Integer/
-			expect{Mmi::Semver.parse([])}.    to raise_error NoMethodError, /undefined method \`strip\' for (\[\]:|an instance of )Array/
+			expect{Mmi::Semver.parse(1 )}.    to raise_error NoMethodError, /undefined method `strip' for (1:|an instance of )Integer/
+			expect{Mmi::Semver.parse([])}.    to raise_error NoMethodError, /undefined method `strip' for (\[\]:|an instance of )Array/
 		end
 		
 		it 'requires the string to match a regex' do
