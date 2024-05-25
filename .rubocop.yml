@@ -133,6 +133,10 @@ Naming/VariableNumber:
 
 # RSpec
 
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/lib/mmi/property_attributes_spec.rb'
+
 RSpec/ExampleLength:
   Enabled: false
 
