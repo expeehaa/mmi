@@ -29,13 +29,13 @@ module Mmi
 								if [true, false].include?(self.download_mc)
 									# Pass.
 								else
-									raise Mmi::InvalidAttributeError, %Q(Invalid "modloader.download_minecraft". Expecting true or false, got #{self.download_mc.inspect}.)
+									raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.download_minecraft". Expecting true or false, got #{self.download_mc.inspect}.}
 								end
 							else
 								raise Mmi::MissingAttributeError, 'Missing "modloader.minecraft_version".'
 							end
 						else
-							raise Mmi::InvalidAttributeError, %Q(Invalid "modloader.install_type". Expecting "client" or "server", got #{self.install_type.inspect}.)
+							raise Mmi::InvalidAttributeError, %Q{Invalid "modloader.install_type". Expecting "client" or "server", got #{self.install_type.inspect}.}
 						end
 					else
 						raise Mmi::MissingAttributeError, 'Missing "modloader.install_type".'
@@ -90,7 +90,7 @@ module Mmi
 				begin
 					Mmi::CachedDownload.download_cached(installer_uri, installer_path, sha512_uri: installer_sha512sum_uri)
 				rescue OpenURI::HTTPError => e
-					Mmi.fail! %Q(Error when requesting fabric installer. Maybe "modloader.version" == #{version.inspect} is invalid.\n#{e.inspect})
+					Mmi.fail! %Q{Error when requesting fabric installer. Maybe "modloader.version" == #{version.inspect} is invalid.\n#{e.inspect}}
 				end
 			end
 			

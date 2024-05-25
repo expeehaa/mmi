@@ -34,14 +34,14 @@ module Mmi
 							when 'url'
 								Source::Url.new(source)
 							else
-								raise Mmi::InvalidAttributeError, %Q(Invalid "source.type" in asset #{index.inspect}: #{type.inspect})
+								raise Mmi::InvalidAttributeError, %Q{Invalid "source.type" in asset #{index.inspect}: #{type.inspect}}
 						end
 					else
-						raise Mmi::MissingAttributeError, %Q(Missing "source" in asset #{index.inspect}.)
+						raise Mmi::MissingAttributeError, %Q{Missing "source" in asset #{index.inspect}.}
 					end
 				end
 			else
-				raise Mmi::InvalidAttributeError, %Q(Invalid "assets": expected Array or nothing, got #{self.items.inspect}.)
+				raise Mmi::InvalidAttributeError, %Q{Invalid "assets": expected Array or nothing, got #{self.items.inspect}.}
 			end
 		end
 		

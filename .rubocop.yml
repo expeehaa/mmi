@@ -234,6 +234,12 @@ Style/NegatedIfElseCondition:
 Style/NumericLiterals:
   Enabled: false
 
+Style/PercentLiteralDelimiters:
+  Enabled: true
+  PreferredDelimiters:
+    '%q': '{}'
+    '%Q': '{}'
+
 Style/RaiseArgs:
   Enabled: true
   EnforcedStyle: exploded
