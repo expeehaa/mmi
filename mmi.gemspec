@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
 	# Pessimistic guess, versions below may work as well.
 	spec.required_ruby_version = '>= 3.0'
 	
-	spec.add_dependency 'cli-ui',   '~> 1.5.0'
+	spec.add_dependency 'cli-ui',   '~> 2.2'
 	spec.add_dependency 'nokogiri', '~> 1.11'
-	spec.add_dependency 'octokit',  '~> 4.22'
+	spec.add_dependency 'octokit',  '~> 8.1'
 	spec.add_dependency 'faraday-retry' # FIXME: octokit prints an annoying error message without this gem, see https://github.com/octokit/octokit.rb/issues/1567.
 end
