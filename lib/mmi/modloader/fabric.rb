@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'nokogiri'
 
-require 'mmi/cached_download'
+require 'mmi/install_utils'
 require 'mmi/constants'
 require 'mmi/property_attributes'
 
@@ -71,7 +71,7 @@ module Mmi
 				Mmi.info "Downloading fabric-installer version #{self.version.inspect}."
 				
 				begin
-					Mmi::CachedDownload.download_cached(installer_uri, installer_path, sha512_uri: installer_sha512sum_uri)
+					Mmi::InstallUtils.download_cached(installer_uri, installer_path, sha512_uri: installer_sha512sum_uri)
 				rescue OpenURI::HTTPError => e
 					Mmi.fail! %Q{Error when requesting fabric installer. Maybe "modloader.version" == #{version.inspect} is invalid.\n#{e.inspect}}
 				end
@@ -94,7 +94,7 @@ module Mmi
 			
 			def available_versions
 				begin
-					Mmi::CachedDownload.download_cached(metadata_uri, metadata_path, sha512_uri: metadata_sha512sum_uri)
+					Mmi::InstallUtils.download_cached(metadata_uri, metadata_path, sha512_uri: metadata_sha512sum_uri)
 				rescue OpenURI::HTTPError => e
 					Mmi.fail! "Error when requesting available fabric installer versions.\n#{e.inspect}"
 				end

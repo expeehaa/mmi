@@ -5,7 +5,7 @@ require 'open-uri'
 require 'mmi/constants'
 
 module Mmi
-	module CachedDownload
+	module InstallUtils
 		class << self
 			def open_cached(path, sha512: nil)
 				if File.exist?(path)
