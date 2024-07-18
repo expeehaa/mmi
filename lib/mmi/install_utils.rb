@@ -22,6 +22,14 @@ module Mmi
 				end
 			end
 			
+			def download_to_file(url, target_file)
+				FileUtils.mkdir_p(File.dirname(target_file))
+				
+				stream = URI.parse(url).open
+				
+				IO.copy_stream(stream, target_file)
+			end
+			
 			def download(uri, sha512: nil)
 				URI.parse(uri).open.tap do |stream|
 					if sha512

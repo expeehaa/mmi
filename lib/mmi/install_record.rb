@@ -24,12 +24,8 @@ module Mmi
 				
 				Mmi.info "Downloading #{entry.url.inspect} into #{target_file.inspect}."
 				
-				FileUtils.mkdir_p(File.dirname(target_file))
-				
 				begin
-					stream = URI.parse(entry.url).open
-					
-					IO.copy_stream(stream, target_file)
+					Mmi::InstallUtils.download_to_file(entry.url, target_file)
 				rescue OpenURI::HTTPError => e
 					Mmi.fail! "Error when requesting asset.\n#{e.inspect}"
 				end
