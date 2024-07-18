@@ -16,6 +16,8 @@ Style/Documentation:
     - 'lib/mmi/asset.rb'
     - 'lib/mmi/assets_processor.rb'
     - 'lib/mmi/constants.rb'
+    - 'lib/mmi/content_hash/base.rb'
+    - 'lib/mmi/content_hash/sha512.rb'
     - 'lib/mmi/github_api.rb'
     - 'lib/mmi/install_record.rb'
     - 'lib/mmi/install_utils.rb'

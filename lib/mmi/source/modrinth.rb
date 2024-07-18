@@ -3,6 +3,7 @@ require 'open-uri'
 
 require 'mmi/modrinth_api'
 require 'mmi/property_attributes'
+require 'mmi/content_hash/sha512'
 
 module Mmi
 	module Source
@@ -36,7 +37,7 @@ module Mmi
 			def install(install_record)
 				filepath = File.join(install_dir, self.filename || self.version_file)
 				
-				install_record.add(download_url, filepath)
+				install_record.add(download_url, filepath, content_hash: Mmi::ContentHash::Sha512.new(api_version_file['hashes']['sha512']))
 			end
 			
 			def display_name

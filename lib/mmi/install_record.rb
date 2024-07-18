@@ -1,8 +1,10 @@
 require 'psych'
 
+require 'mmi/content_hash/base'
+
 module Mmi
 	class InstallRecord
-		RecordEntry = Struct.new(:url)
+		RecordEntry = Struct.new(:url, :content_hash)
 		
 		RECORD_FILE = '.mmi_install_record'.freeze
 		
@@ -10,8 +12,10 @@ module Mmi
 			@record = {}
 		end
 		
-		def add(url, relative_path)
-			@record[relative_path] = RecordEntry.new(url)
+		def add(url, relative_path, content_hash:)
+			raise 'content_hash must be nil or an instance of Mmi::ContentHash::Base' unless content_hash.nil? || content_hash.is_a?(Mmi::ContentHash::Base)
+			
+			@record[relative_path] = RecordEntry.new(url, content_hash)
 		end
 		
 		def install(dir)

@@ -39,7 +39,7 @@ module Mmi
 			def install(install_record)
 				filepath = File.join(install_dir, self.filename || (self.asset_id ? cached_asset_response.name : self.file))
 				
-				install_record.add(download_url, filepath)
+				install_record.add(download_url, filepath, content_hash: nil) # As of 2024-07-18, the GitHub API does not return any hash over the asset.
 			end
 			
 			def display_name

@@ -19,7 +19,7 @@ module Mmi
 			def install(install_record)
 				filepath = File.join(install_dir, self.filename || File.basename(download_uri.path))
 				
-				install_record.add(url, filepath)
+				install_record.add(url, filepath, content_hash: nil)
 			end
 			
 			def display_name
