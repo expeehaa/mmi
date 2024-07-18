@@ -1,6 +1,10 @@
+require 'psych'
+
 module Mmi
 	class InstallRecord
 		RecordEntry = Struct.new(:url)
+		
+		RECORD_FILE = '.mmi_install_record'.freeze
 		
 		def initialize
 			@record = {}
@@ -26,6 +30,12 @@ module Mmi
 					Mmi.fail! "Error when requesting asset.\n#{e.inspect}"
 				end
 			end
+			
+			File.write(File.expand_path(RECORD_FILE, dir), to_yaml)
+		end
+		
+		def to_yaml
+			Psych.dump(@record)
 		end
 	end
 end
