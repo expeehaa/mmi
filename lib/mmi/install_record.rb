@@ -28,7 +28,7 @@ module Mmi
 					Mmi.info "Downloading #{entry.url.inspect} into #{target_file.inspect}."
 					
 					begin
-						Mmi::InstallUtils.download_to_file(entry.url, target_file)
+						Mmi::InstallUtils.download_to_file(entry.url, target_file, entry.content_hash)
 					rescue OpenURI::HTTPError => e
 						Mmi.fail! "Error when requesting asset.\n#{e.inspect}"
 					end
