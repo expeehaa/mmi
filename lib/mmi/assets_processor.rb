@@ -1,6 +1,7 @@
 require 'mmi/constants'
 require 'mmi/property_attributes'
 require 'mmi/asset'
+require 'mmi/install_record'
 
 module Mmi
 	class AssetsProcessor
@@ -10,8 +11,12 @@ module Mmi
 		property :items,       type: Asset, default: []
 		
 		def install
-			self.items.each do |asset|
-				asset.install(self.profile_dir)
+			InstallRecord.new.tap do |install_record|
+				self.items.each do |asset|
+					asset.install(install_record)
+				end
+				
+				install_record.install(self.profile_dir)
 			end
 		end
 	end

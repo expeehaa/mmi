@@ -9,8 +9,8 @@ module Mmi
 		
 		property :source, type: {field: 'type', types: {'github' => Source::Github, 'modrinth' => Source::Modrinth, 'url' => Source::Url}}
 		
-		def install(dir)
-			source.install(dir)
+		def install(install_record)
+			source.install(install_record)
 		end
 	end
 end

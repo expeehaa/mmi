@@ -36,21 +36,10 @@ module Mmi
 				end
 			end
 			
-			def install(dir)
-				install_dir = File.expand_path(self.install_dir, dir)
-				filepath    = File.join(install_dir, self.filename || (self.asset_id ? cached_asset_response.name : self.file))
+			def install(install_record)
+				filepath = File.join(install_dir, self.filename || (self.asset_id ? cached_asset_response.name : self.file))
 				
-				Mmi.info "Downloading #{download_url.inspect} into #{filepath.inspect}."
-				
-				FileUtils.mkdir_p(install_dir)
-				
-				begin
-					stream = URI.parse(download_url).open
-					
-					IO.copy_stream(stream, filepath)
-				rescue OpenURI::HTTPError => e
-					Mmi.fail! "Error when requesting asset.\n#{e.inspect}"
-				end
+				install_record.add(download_url, filepath)
 			end
 			
 			def display_name

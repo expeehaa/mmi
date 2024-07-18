@@ -17,6 +17,7 @@ Style/Documentation:
     - 'lib/mmi/assets_processor.rb'
     - 'lib/mmi/constants.rb'
     - 'lib/mmi/github_api.rb'
+    - 'lib/mmi/install_record.rb'
     - 'lib/mmi/install_utils.rb'
     - 'lib/mmi/interactive.rb'
     - 'lib/mmi/interactive/assets.rb'
