@@ -19,14 +19,18 @@ module Mmi
 				(@cached_mod_versions ||= {})[{loader: loader, game_version: game_version}] ||= Mmi::ModrinthApi.project_versions(self.name, loader: loader, game_version: game_version)
 			end
 			
-			def download_url
+			def api_version_file
 				cached_mod_versions.select do |version|
 					version['name'] == self.version
 				end.map do |version|
 					version['files']
 				end.flatten(1).select do |files|
 					files['filename'] == self.version_file
-				end.first['url'].gsub(/ /, '%20')
+				end.first
+			end
+			
+			def download_url
+				api_version_file['url'].gsub(/ /, '%20')
 			end
 			
 			def install(install_record)
