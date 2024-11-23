@@ -6,8 +6,6 @@ require 'psych'
 require 'mmi'
 require 'mmi/interactive'
 
-CLI::UI::StdoutRouter.enable
-
 def processor(file)
 	content = Psych.load_file(file)
 	
