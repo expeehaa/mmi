@@ -137,7 +137,7 @@ module Mmi
 				window.close
 			end
 			
-			def prompt_text(prompt, default: '', allowed_characters: %r{[\d\w\.-/]})
+			def prompt_text(prompt, default: '', allowed_characters: %r{[\d\w\.\-_\/]})
 				height = 5
 				width  = prompt.length + 4
 				window = main_window.subwin(height, width, (main_window.maxy-height)/2, (main_window.maxx-width)/2)
