@@ -153,30 +153,36 @@ module Mmi
 								else
 									{}
 							end
-						available_mod_versions = source.cached_mod_versions(**version_filter_parameters).select do |version|
-							version['files'].any?
-						end.map do |version|
-							["#{version['name']} (for game versions #{version['game_versions'].join('/')})", version]
-						end
-						
-						if available_mod_versions.any?
-							mod_version = prompt_choice('Choose a version.', available_mod_versions)
-							
-							version_file = mod_version['files'].map do |file|
-								[file['filename'], file]
-							end.then do |options|
-								prompt_choice('Choose a version file.', options)
+						begin
+							available_mod_versions = source.cached_mod_versions(**version_filter_parameters).select do |version|
+								version['files'].any?
+							end.map do |version|
+								["#{version['name']} (for game versions #{version['game_versions'].join('/')})", version]
 							end
 							
-							source.update_properties!({
-								version:      mod_version['name'],
-								version_file: version_file['filename'],
-							})
-							
-							true
-						else
-							prompt_choice("No mod versions for Minecraft #{processor.modloader.minecraft_version} available!", [['Ok', nil]])
-							
+							if available_mod_versions.any?
+								mod_version = prompt_choice('Choose a version.', available_mod_versions)
+								
+								version_file = mod_version['files'].map do |file|
+									[file['filename'], file]
+								end.then do |options|
+									prompt_choice('Choose a version file.', options)
+								end
+								
+								source.update_properties!({
+									version:      mod_version['name'],
+									version_file: version_file['filename'],
+								})
+								
+								true
+							else
+								prompt_choice("No mod versions for Minecraft #{processor.modloader.minecraft_version} available!", [['Ok', nil]])
+								
+								false
+							end
+						rescue OpenURI::HTTPError => e
+							prompt_choice("Error retrieving mod information.", [['Ok', nil]])
+
 							false
 						end
 					when Mmi::Source::Url
