@@ -56,8 +56,8 @@ module Mmi
 			
 			def create_source
 				source_type = prompt_choice('Choose a source type.', [
-					['GitHub',   :github  ],
 					['Modrinth', :modrinth],
+					['GitHub',   :github  ],
 					['URL',      :url     ],
 				])
 				
