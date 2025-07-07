@@ -161,6 +161,84 @@ module Mmi
 			ensure
 				destroy_window!(window)
 			end
+			
+			def self.show_table_window!(rows, keybindings = {})
+				window = self.main_window.subwin(0, 0, 0, 0)
+				window.keypad true
+				
+				unless rows.all? do |row|
+					row.all? do |cell|
+						cell.is_a?(String) || cell.is_a?(Proc) && cell.arity == 0
+					end
+				end
+					raise "Invalid table rows: #{rows.inspect}"
+				end
+				
+				unless keybindings.values.all? do |value|
+					value.is_a?(Proc) && value.arity == 1
+				end
+					raise "Invalid keybindings: #{keybindings.inspect}"
+				end
+				
+				current_index = 0
+				
+				keybindings = {
+					259 => ->(i){ current_index = (i-1) % rows.size },
+					258 => ->(i){ current_index = (i+1) % rows.size },
+					'q' => ->(_) { :break },
+				}.merge(keybindings)
+				
+				loop do
+					window.box('|', '-')
+					
+					rows.map do |row|
+						row.map do |cell|
+							if cell.is_a?(Proc) && cell.arity == 0
+								cell.call
+							else
+								cell.to_s
+							end
+						end
+					end.then do |evaluated_rows|
+						max_columns = evaluated_rows.map(&:size).max
+						
+						evaluated_rows.map do |row|
+							row + ['']*(max_columns - row.size)
+						end
+					end.tap do |same_size_evaluated_rows|
+						column_lengths = same_size_evaluated_rows.transpose.map do |column|
+							column.map(&:length).max
+						end
+						
+						same_size_evaluated_rows.each.with_index do |row, row_index|
+							window.attron(::Curses.color_pair(current_index == row_index ? 1 : 0)) do
+								window.setpos(2+row_index, 2)
+								
+								row.map.with_index do |cell, cell_index|
+									cell.ljust(column_lengths[cell_index])
+								end.join('  ').ljust(window.maxx-4).tap do |str|
+									window.addstr(str)
+								end
+							end
+						end
+					end
+					
+					window.refresh
+					
+					case (task = keybindings.fetch(window.getch, :not_found))
+						when Proc
+							if task.call(current_index) == :break
+								break
+							end
+						when :not_found
+							# No binding exists, ignore the input.
+						else
+							raise "Unexpected task: #{task.inspect}"
+					end
+				end
+			ensure
+				self.destroy_window!(window)
+			end
 		end
 	end
 end
