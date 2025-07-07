@@ -5,38 +5,27 @@ module Mmi
 	module Interactive
 		module Assets
 			def update_assets
-				window = Mmi::Curses::Utils.main_window.subwin(0, 0, 0, 0)
-				window.keypad true
-				
-				current_index = 0
-				
-				loop do
-					window.box('|', '-')
-					
-					processor.assets.items.each_with_index do |asset, index|
-						window.attron(::Curses.color_pair(current_index == index ? 1 : 0)) do
-							window.setpos(2+index, 2)
-							window.addstr(asset.source.display_name)
+				row_proc = proc do
+					processor.assets.items.map do |asset|
+						case asset.source
+							when Mmi::Source::Modrinth
+								[asset.source.display_name, asset.source.version]
+							when Mmi::Source::Github
+								[asset.source.display_name, *(asset.source.asset_id.nil? ? [asset.source.release, asset.source.file] : asset.source.asset_id)]
+							when Mmi::Source::Url
+								[asset.source.display_name]
+							else
+								[asset.source.display_name]
 						end
 					end
-					
-					window.refresh
-					
-					case window.getch
-						when 259
-							current_index = (current_index-1) % processor.assets.items.size
-						when 258
-							current_index = (current_index+1) % processor.assets.items.size
-						when 'e', 10
-							update_asset_source_version(processor.assets.items[current_index].source)
-						when 'a'
-							add_asset
-						when 'q'
-							break
-					end
 				end
-			ensure
-				Mmi::Curses::Utils.destroy_window!(window)
+				
+				keybindings = {
+					10  => ->{ update_asset_source_version(processor.assets.items[it].source) },
+					'a' => ->(_) { add_asset },
+				}
+				
+				Mmi::Curses::Utils.show_table_window!(row_proc, keybindings)
 			end
 			
 			def add_asset

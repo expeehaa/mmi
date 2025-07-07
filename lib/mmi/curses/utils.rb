@@ -166,12 +166,8 @@ module Mmi
 				window = self.main_window.subwin(0, 0, 0, 0)
 				window.keypad true
 				
-				unless rows.all? do |row|
-					row.all? do |cell|
-						cell.is_a?(String) || cell.is_a?(Proc) && cell.arity == 0
-					end
-				end
-					raise "Invalid table rows: #{rows.inspect}"
+				if !rows.is_a?(Proc) && (!rows.is_a?(Array) || rows.any?{ !it.is_a?(Array) })
+					raise "rows must be a valid Array or a Proc, but was #{rows.inspect}"
 				end
 				
 				unless keybindings.values.all? do |value|
@@ -181,17 +177,28 @@ module Mmi
 				end
 				
 				current_index = 0
+				row_count     = rows.is_a?(Array) ? rows.size : nil
 				
 				keybindings = {
-					259 => ->(i){ current_index = (i-1) % rows.size },
-					258 => ->(i){ current_index = (i+1) % rows.size },
+					259 => ->(i) { current_index = (i-1) % row_count },
+					258 => ->(i) { current_index = (i+1) % row_count },
 					'q' => ->(_) { :break },
 				}.merge(keybindings)
 				
 				loop do
 					window.box('|', '-')
 					
-					rows.map do |row|
+					if rows.is_a?(Proc)
+						rows.call.tap do |generated_rows|
+							if !generated_rows.is_a?(Array) || generated_rows.any?{ !it.is_a?(Array) }
+								raise "Invalid table rows: #{generated_rows.inspect}"
+							end
+							
+							row_count = generated_rows.size
+						end
+					else
+						rows
+					end.map do |row|
 						row.map do |cell|
 							if cell.is_a?(Proc) && cell.arity == 0
 								cell.call
