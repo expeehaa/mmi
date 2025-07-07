@@ -58,9 +58,9 @@ module Mmi
 					
 					case window.getch
 						when 259
-							current_index = (current_index-1) % processor.assets.items.size
+							current_index = (current_index-1) % options.size
 						when 258
-							current_index = (current_index+1) % processor.assets.items.size
+							current_index = (current_index+1) % options.size
 						when 10
 							options[current_index][1].call
 						when 'q'
