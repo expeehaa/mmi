@@ -35,6 +35,12 @@ module Mmi
 				
 				current_index = initial_index
 				
+				keybindings = {
+					259 => ->(_) { current_index = (current_index-1) % options.size }, # up arrow key
+					258 => ->(_) { current_index = (current_index+1) % options.size }, # down arrow key
+					 10 => ->(_) { :break }, # enter key
+				}
+				
 				loop do
 					window.box('|', '-')
 					window.setpos(1, 2)
@@ -65,13 +71,15 @@ module Mmi
 					
 					window.refresh
 					
-					case window.getch
-						when 259 # up arrow key
-							current_index = (current_index-1) % options.size
-						when 258 # down arrow key
-							current_index = (current_index+1) % options.size
-						when 10 # enter
-							break
+					case (task = keybindings.fetch(window.getch, :not_found))
+						when Proc
+							if task.call(current_index) == :break
+								break
+							end
+						when :not_found
+							# No binding exists, ignore the input.
+						else
+							raise "Unexpected task: #{task.inspect}"
 					end
 				end
 				
@@ -91,6 +99,16 @@ module Mmi
 				text_display_length     = width - 4 - 1 # 2 border, 2 empty adjacent to border, 1 cursor
 				
 				::Curses.curs_set(1)
+				
+				keybindings = {
+					 10 => -> { :break },
+					260 => -> { cursor_position_in_text = [0,                 cursor_position_in_text-1].max }, # left arrow key
+					261 => -> { cursor_position_in_text = [typed_text.length, cursor_position_in_text+1].min }, # right arrow key
+					  1 => -> { cursor_position_in_text = 0                 }, # ctrl+a
+					360 => -> { cursor_position_in_text = typed_text.length }, # end key
+					263 => -> { cursor_position_in_text = [0,                 cursor_position_in_text-1].max; typed_text.slice!(cursor_position_in_text)     }, # backspace key
+					330 => -> { if cursor_position_in_text < typed_text.length then                           typed_text.slice!(cursor_position_in_text) end }, # delete key
+				}
 				
 				loop do
 					window.box('|', '-')
@@ -127,33 +145,22 @@ module Mmi
 					
 					window.refresh
 					
-					case (ch = window.getch)
-						when /\A#{allowed_characters}\z/
-							typed_text.insert(cursor_position_in_text, ch)
-							cursor_position_in_text += 1
-						when 10
-							break
-						when 260 # left arrow key
-							if cursor_position_in_text > 0
-								cursor_position_in_text -= 1
-							end
-						when 261 # right arrow key
-							if cursor_position_in_text < typed_text.length
-								cursor_position_in_text += 1
-							end
-						when 1 # ctrl+a
-							cursor_position_in_text = 0
-						when 360 # end key
-							cursor_position_in_text = typed_text.length
-						when 263 # backspace key
-							if cursor_position_in_text > 0
-								cursor_position_in_text -= 1
-								typed_text.slice!(cursor_position_in_text)
-							end
-						when 330 # delete key
-							if cursor_position_in_text < typed_text.length
-								typed_text.slice!(cursor_position_in_text)
-							end
+					ch = window.getch
+					
+					if ch.is_a?(String) && /\A#{allowed_characters}\z/.match?(ch)
+						typed_text.insert(cursor_position_in_text, ch)
+						cursor_position_in_text += 1
+					else
+						case (task = keybindings.fetch(ch, :not_found))
+							when Proc
+								if task.call == :break
+									break
+								end
+							when :not_found
+								# No binding exists, ignore the input.
+							else
+								raise "Unexpected task: #{task.inspect}"
+						end
 					end
 				end
 				
