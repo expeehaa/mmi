@@ -5,7 +5,7 @@ module Mmi
 	module Interactive
 		module Assets
 			def update_assets
-				window = main_window.subwin(0, 0, 0, 0)
+				window = Mmi::Curses::Utils.main_window.subwin(0, 0, 0, 0)
 				window.keypad true
 				
 				current_index = 0
@@ -14,7 +14,7 @@ module Mmi
 					window.box('|', '-')
 					
 					processor.assets.items.each_with_index do |asset, index|
-						window.attron(Curses.color_pair(current_index == index ? 1 : 0)) do
+						window.attron(::Curses.color_pair(current_index == index ? 1 : 0)) do
 							window.setpos(2+index, 2)
 							window.addstr(asset.source.display_name)
 						end
@@ -36,9 +36,7 @@ module Mmi
 					end
 				end
 			ensure
-				window.erase
-				window.refresh
-				window.close
+				Mmi::Curses::Utils.destroy_window!(window)
 			end
 			
 			def add_asset
@@ -55,7 +53,7 @@ module Mmi
 			end
 			
 			def create_source
-				source_type = prompt_choice('Choose a source type.', [
+				source_type = Mmi::Curses::Utils.prompt_choice('Choose a source type.', [
 					['Modrinth', :modrinth],
 					['GitHub',   :github  ],
 					['URL',      :url     ],
@@ -69,10 +67,10 @@ module Mmi
 								'asset_id' => 0,
 							}
 							
-							options['owner'      ] = prompt_text('Owner of the source repository').strip
-							options['repo'       ] = prompt_text('Name of the source repository').strip
-							options['install_dir'] = prompt_text('Asset install directory', default: 'mods').strip
-							options['filename'   ] = prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
+							options['owner'      ] = Mmi::Curses::Utils.prompt_text('Owner of the source repository').strip
+							options['repo'       ] = Mmi::Curses::Utils.prompt_text('Name of the source repository').strip
+							options['install_dir'] = Mmi::Curses::Utils.prompt_text('Asset install directory', default: 'mods').strip
+							options['filename'   ] = Mmi::Curses::Utils.prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
@@ -86,9 +84,9 @@ module Mmi
 								'version_file' => '0',
 							}
 							
-							options['name'       ] = prompt_text('Mod name (as in the Modrinth URL)').strip
-							options['install_dir'] = prompt_text('Asset install directory', default: 'mods').strip
-							options['filename'   ] = prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
+							options['name'       ] = Mmi::Curses::Utils.prompt_text('Mod name (as in the Modrinth URL)').strip
+							options['install_dir'] = Mmi::Curses::Utils.prompt_text('Asset install directory', default: 'mods').strip
+							options['filename'   ] = Mmi::Curses::Utils.prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
@@ -100,8 +98,8 @@ module Mmi
 								'type' => 'url',
 							}
 							
-							options['install_dir'] = prompt_text('Asset install directory', default: 'mods').strip
-							options['filename'   ] = prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
+							options['install_dir'] = Mmi::Curses::Utils.prompt_text('Asset install directory', default: 'mods').strip
+							options['filename'   ] = Mmi::Curses::Utils.prompt_text('Asset file name (leave empty for default)').strip.then do |filename|
 								filename == '' ? nil : filename
 							end
 							
@@ -127,9 +125,9 @@ module Mmi
 						end
 						
 						if github_releases.any?
-							github_release = prompt_choice('Choose a release.', github_releases)
+							github_release = Mmi::Curses::Utils.prompt_choice('Choose a release.', github_releases)
 							
-							release_asset = prompt_choice('Choose an asset.', github_release.assets.map {|a| [a.name, a] })
+							release_asset = Mmi::Curses::Utils.prompt_choice('Choose an asset.', github_release.assets.map {|a| [a.name, a] })
 							source.update_properties!({
 								release:  nil,
 								file:     nil,
@@ -138,7 +136,7 @@ module Mmi
 							
 							true
 						else
-							prompt_choice("No GitHub releases found!", [['Ok', nil]])
+							Mmi::Curses::Utils.prompt_choice("No GitHub releases found!", [['Ok', nil]])
 							
 							false
 						end
@@ -161,12 +159,12 @@ module Mmi
 							end
 							
 							if available_mod_versions.any?
-								mod_version = prompt_choice('Choose a version.', available_mod_versions)
+								mod_version = Mmi::Curses::Utils.prompt_choice('Choose a version.', available_mod_versions)
 								
 								version_file = mod_version['files'].map do |file|
 									[file['filename'], file]
 								end.then do |options|
-									prompt_choice('Choose a version file.', options)
+									Mmi::Curses::Utils.prompt_choice('Choose a version file.', options)
 								end
 								
 								source.update_properties!({
@@ -176,17 +174,17 @@ module Mmi
 								
 								true
 							else
-								prompt_choice("No mod versions for Minecraft #{processor.modloader.minecraft_version} available!", [['Ok', nil]])
+								Mmi::Curses::Utils.prompt_choice("No mod versions for Minecraft #{processor.modloader.minecraft_version} available!", [['Ok', nil]])
 								
 								false
 							end
 						rescue OpenURI::HTTPError => e
-							prompt_choice("Error retrieving mod information.", [['Ok', nil]])
+							Mmi::Curses::Utils.prompt_choice("Error retrieving mod information.", [['Ok', nil]])
 
 							false
 						end
 					when Mmi::Source::Url
-						url = prompt_text('URL to download from', default: source.url).strip
+						url = Mmi::Curses::Utils.prompt_text('URL to download from', default: source.url).strip
 						
 						source.update_properties!({url: url})
 				end
