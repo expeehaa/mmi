@@ -85,6 +85,7 @@ module Mmi
 						when :url
 							options = {
 								'type' => 'url',
+								'url'  => '',
 							}
 							
 							options['install_dir'] = Mmi::Curses::Utils.prompt_text('Asset install directory', default: 'mods').strip
