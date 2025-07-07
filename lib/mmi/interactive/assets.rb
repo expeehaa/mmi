@@ -27,6 +27,7 @@ module Mmi
 				keybindings = {
 					10  => ['Update selected asset.', ->    { update_asset_source_version(@processor.assets.items[it].source) }],
 					'a' => ['Add new asset.',         ->(_) { add_asset                                                       }],
+					'd' => ['Delete selected asset.', ->    { delete_asset(it)                                                }],
 				}
 				
 				Mmi::Curses::Utils.show_table_window!(row_proc, keybindings)
@@ -182,6 +183,11 @@ module Mmi
 						
 						source.update_properties!({url: url})
 				end
+			end
+			
+			def delete_asset(index)
+				@processor.assets['items'].delete_at(index)
+				@processor.assets.parse!
 			end
 		end
 	end

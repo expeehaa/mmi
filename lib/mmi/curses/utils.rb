@@ -236,7 +236,7 @@ module Mmi
 				end
 				
 				current_index = 0
-				row_count     = rows.is_a?(Array) ? rows.size : nil
+				row_count     = rows.is_a?(Array) ? rows.size : 0
 				
 				keybindings = {
 					259 => ['Select the item above.',     ->(i) { current_index = (i-1) % row_count   }],
@@ -249,12 +249,23 @@ module Mmi
 					window.box('|', '-')
 					
 					if rows.is_a?(Proc)
-						rows.call.tap do |generated_rows|
+						rows.call.then do |generated_rows|
 							if !generated_rows.is_a?(Array) || generated_rows.any?{ !it.is_a?(Array) }
 								raise "Invalid table rows: #{generated_rows.inspect}"
 							end
 							
-							row_count = generated_rows.size
+							new_row_count = generated_rows.size
+							
+							if new_row_count < row_count
+								(row_count-new_row_count).times do
+									generated_rows.push([''])
+								end
+								
+								current_index = [(current_index - row_count + new_row_count), 0].max % new_row_count
+							end
+							
+							row_count = new_row_count
+							generated_rows
 						end
 					else
 						rows

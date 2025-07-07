@@ -99,7 +99,6 @@ They are not intended to create a working modded Minecraft environment and will 
 * Write tests.
 * Add command to interactively create a config file.
 * Be able to update/change modloader interactively.
-* Be able to remove assets interactively.
 * Think about advising users to use another file extension than `.yaml` (e.g. `.mmi`, `.mmiconf`).
 * Try to make a Java-executable `.jar` file using `warbler` and `JRuby`.
 
