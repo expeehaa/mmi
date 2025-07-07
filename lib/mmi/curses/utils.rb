@@ -162,8 +162,8 @@ module Mmi
 				destroy_window!(window)
 			end
 			
-			def self.show_table_window!(rows, keybindings = {})
-				window = self.main_window.subwin(0, 0, 0, 0)
+			def self.show_table_window!(rows, keybindings = {}, window = nil)
+				window ||= self.main_window.subwin(0, 0, 0, 0)
 				window.keypad true
 				
 				if !rows.is_a?(Proc) && (!rows.is_a?(Array) || rows.any?{ !it.is_a?(Array) })

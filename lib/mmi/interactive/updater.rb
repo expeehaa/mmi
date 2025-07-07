@@ -17,36 +17,16 @@ module Mmi
 				Mmi::Curses::Utils.init!
 				
 				options = [
-					['Edit modloader', -> { Modloader.new(self.processor).show! }],
-					['Edit assets',    -> { Assets   .new(self.processor).show! }],
+					[['Edit modloader'], -> { Modloader.new(self.processor).show! }],
+					[['Edit assets'   ], -> { Assets   .new(self.processor).show! }],
 				]
-				current_index = 0
 				
-				loop do
-					Mmi::Curses::Utils.main_window.box('|', '-')
-					
-					options.each_with_index do |(text, _), index|
-						Mmi::Curses::Utils.main_window.setpos(2+index, 2)
-						Mmi::Curses::Utils.main_window.attron(::Curses.color_pair(current_index == index ? 1 : 0)) do
-							Mmi::Curses::Utils.main_window.addstr(text)
-						end
-					end
-					
-					Mmi::Curses::Utils.main_window.refresh
-					
-					case Mmi::Curses::Utils.main_window.getch
-						when 259
-							current_index = (current_index-1) % options.size
-						when 258
-							current_index = (current_index+1) % options.size
-						when 10
-							options[current_index][1].call
-						when 'q'
-							if show_close_dialog
-								break
-							end
-					end
-				end
+				keybindings = {
+					10  => -> { options[it][1].call },
+					'q' => ->(_) { show_close_dialog ? :break : nil },
+				}
+				
+				Mmi::Curses::Utils.show_table_window!(options.map(&:first), keybindings, Mmi::Curses::Utils.main_window)
 			ensure
 				::Curses.close_screen
 			end
