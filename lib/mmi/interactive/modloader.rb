@@ -3,9 +3,13 @@ require 'mmi/modloader/none'
 
 module Mmi
 	module Interactive
-		module Modloader
-			def update_modloader
-				if self.processor.modloader.is_a?(Mmi::Modloader::Fabric)
+		class Modloader
+			def initialize(processor)
+				@processor = processor
+			end
+			
+			def show!
+				if @processor.modloader.is_a?(Mmi::Modloader::Fabric)
 					update_modloader_fabric
 				else
 					false
@@ -13,7 +17,7 @@ module Mmi
 			end
 			
 			def update_modloader_fabric
-				ml = self.processor.modloader
+				ml = @processor.modloader
 				
 				options = [
 					[['Installer version',   ->{ ml.version                        }], -> do

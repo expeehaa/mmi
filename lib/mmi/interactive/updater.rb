@@ -5,9 +5,6 @@ require 'mmi/interactive/assets'
 module Mmi
 	module Interactive
 		class Updater
-			include Modloader
-			include Assets
-			
 			attr_accessor :processor
 			attr_accessor :file_path
 			
@@ -20,8 +17,8 @@ module Mmi
 				Mmi::Curses::Utils.init!
 				
 				options = [
-					['Edit modloader', -> { update_modloader }],
-					['Edit assets',    -> { update_assets    }],
+					['Edit modloader', -> { Modloader.new(self.processor).show! }],
+					['Edit assets',    -> { Assets   .new(self.processor).show! }],
 				]
 				current_index = 0
 				

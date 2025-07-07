@@ -3,10 +3,14 @@ require 'mmi/source/github'
 
 module Mmi
 	module Interactive
-		module Assets
-			def update_assets
+		class Assets
+			def initialize(processor)
+				@processor = processor
+			end
+			
+			def show!
 				row_proc = proc do
-					processor.assets.items.map do |asset|
+					@processor.assets.items.map do |asset|
 						case asset.source
 							when Mmi::Source::Modrinth
 								[asset.source.display_name, asset.source.version]
@@ -21,7 +25,7 @@ module Mmi
 				end
 				
 				keybindings = {
-					10  => ->{ update_asset_source_version(processor.assets.items[it].source) },
+					10  => -> { update_asset_source_version(@processor.assets.items[it].source) },
 					'a' => ->(_) { add_asset },
 				}
 				
@@ -34,8 +38,8 @@ module Mmi
 						'source' => source.to_h,
 					})
 					
-					self.processor.assets['items'].push(asset.to_h)
-					self.processor.assets.parse!
+					@processor.assets['items'].push(asset.to_h)
+					@processor.assets.parse!
 				else
 					false
 				end
@@ -132,11 +136,11 @@ module Mmi
 						end
 					when Mmi::Source::Modrinth
 						version_filter_parameters =
-							case processor.modloader
+							case @processor.modloader
 								when Mmi::Modloader::Fabric
 									{
 										loader:       'fabric',
-										game_version: processor.modloader.minecraft_version,
+										game_version: @processor.modloader.minecraft_version,
 									}
 								else
 									{}
@@ -164,7 +168,7 @@ module Mmi
 								
 								true
 							else
-								Mmi::Curses::Utils.prompt_choice("No mod versions for Minecraft #{processor.modloader.minecraft_version} available!", [['Ok', nil]])
+								Mmi::Curses::Utils.prompt_choice("No mod versions for Minecraft #{@processor.modloader.minecraft_version} available!", [['Ok', nil]])
 								
 								false
 							end
