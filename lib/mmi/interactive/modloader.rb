@@ -44,7 +44,7 @@ module Mmi
 				]
 				
 				keybindings = {
-					10 => -> { options[it][1].call },
+					10 => ['Edit property.', -> { options[it][1].call }],
 				}
 				
 				Mmi::Curses::Utils.show_table_window!(options.map(&:first), keybindings)

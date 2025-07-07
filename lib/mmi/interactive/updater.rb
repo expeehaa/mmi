@@ -22,8 +22,8 @@ module Mmi
 				]
 				
 				keybindings = {
-					10  => -> { options[it][1].call },
-					'q' => ->(_) { show_close_dialog ? :break : nil },
+					10  => ['Choose selection.',       ->    { options[it][1].call              }],
+					'q' => ['Quit (asks for saving).', ->(_) { show_close_dialog ? :break : nil }],
 				}
 				
 				Mmi::Curses::Utils.show_table_window!(options.map(&:first), keybindings, Mmi::Curses::Utils.main_window)

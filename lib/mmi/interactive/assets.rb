@@ -25,8 +25,8 @@ module Mmi
 				end
 				
 				keybindings = {
-					10  => -> { update_asset_source_version(@processor.assets.items[it].source) },
-					'a' => ->(_) { add_asset },
+					10  => ['Update selected asset.', ->    { update_asset_source_version(@processor.assets.items[it].source) }],
+					'a' => ['Add new asset.',         ->(_) { add_asset                                                       }],
 				}
 				
 				Mmi::Curses::Utils.show_table_window!(row_proc, keybindings)
