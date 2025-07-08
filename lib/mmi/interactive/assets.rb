@@ -13,7 +13,7 @@ module Mmi
 					@processor.assets.items.map do |asset|
 						case asset.source
 							when Mmi::Source::Modrinth
-								[asset.source.display_name, asset.source.version]
+								[asset.source.display_name, asset.source.version, asset.source.version_file]
 							when Mmi::Source::Github
 								[asset.source.display_name, *(asset.source.asset_id.nil? ? [asset.source.release, asset.source.file] : asset.source.asset_id)]
 							when Mmi::Source::Url
