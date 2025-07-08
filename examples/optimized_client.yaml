@@ -41,5 +41,5 @@ assets:
   - source:
       type: url
       url: https://raw.githubusercontent.com/expeehaa/mmi/master/README.adoc
-      install_dir: '.'
+      install_dir: "."
       filename: readme.adoc
