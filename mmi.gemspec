@@ -16,8 +16,7 @@ Gem::Specification.new do |spec|
 	
 	spec.metadata['rubygems_mfa_required'] = 'true'
 	
-	# Pessimistic guess, versions below may work as well.
-	spec.required_ruby_version = '>= 3.0'
+	spec.required_ruby_version = '>= 3.4'
 	
 	spec.add_dependency 'nokogiri', '~> 1.11'
 	spec.add_dependency 'octokit',  '~> 8.1'
