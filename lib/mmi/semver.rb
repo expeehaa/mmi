@@ -11,10 +11,14 @@ module Mmi
 		end
 		
 		def self.parse(version)
-			if (m = /\A(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\z/.match(version.strip))
-				new(m[:major].to_i, m[:minor].to_i, m[:patch].to_i)
+			if version.is_a?(String)
+				if (m = /\A(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\z/.match(version.strip))
+					new(m[:major].to_i, m[:minor].to_i, m[:patch].to_i)
+				else
+					raise "Version string not in valid format: #{version.inspect}"
+				end
 			else
-				raise "Version string not in valid format: #{version.inspect}"
+				raise ArgumentError, "Argument must be String, but was #{version.inspect}."
 			end
 		end
 	end
