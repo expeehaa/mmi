@@ -85,11 +85,11 @@ RSpec.describe Mmi::PropertyAttributes do
 			expect{test_class.property(:asdf1, type: parsing_struct)}.not_to raise_error
 			
 			expect{test_class.property(:asdf,  type: {}                                             )}.    to raise_error ArgumentError, '{} is not a valid "type"'
-			expect{test_class.property(:asdf,  type: {field: '23'                                  })}.    to raise_error ArgumentError, '{:field=>"23"} is not a valid "type"'
-			expect{test_class.property(:asdf,  type: {             types: {}                       })}.    to raise_error ArgumentError, '{:types=>{}} is not a valid "type"'
-			expect{test_class.property(:asdf,  type: {field: '23', types: []                       })}.    to raise_error ArgumentError, '{:field=>"23", :types=>[]} is not a valid "type"'
+			expect{test_class.property(:asdf,  type: {field: '23'                                  })}.    to raise_error ArgumentError, '{field: "23"} is not a valid "type"'
+			expect{test_class.property(:asdf,  type: {             types: {}                       })}.    to raise_error ArgumentError, '{types: {}} is not a valid "type"'
+			expect{test_class.property(:asdf,  type: {field: '23', types: []                       })}.    to raise_error ArgumentError, '{field: "23", types: []} is not a valid "type"'
 			expect{test_class.property(:asdf2, type: {field: '23', types: {}                       })}.not_to raise_error
-			expect{test_class.property(:asdf,  type: {field: '23', types: {'cba' => 5             }})}.    to raise_error ArgumentError, '{:field=>"23", :types=>{"cba"=>5}} is not a valid "type"'
+			expect{test_class.property(:asdf,  type: {field: '23', types: {'cba' => 5             }})}.    to raise_error ArgumentError, '{field: "23", types: {"cba" => 5}} is not a valid "type"'
 			expect{test_class.property(:asdf3, type: {field: '23', types: {'cba' => nil           }})}.not_to raise_error
 			expect{test_class.property(:asdf4, type: {field: '23', types: {'cba' => parsing_struct}})}.not_to raise_error
 		end
