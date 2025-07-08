@@ -1,5 +1,5 @@
 ---
-version: 0.2.0
+version: 0.2.4
 modloader:
   name: fabric
   version: 0.7.3
@@ -37,6 +37,7 @@ assets:
       version_file: ferritecore-2.1.0-fabric.jar
       install_dir: mods
       filename: ferritecore-4.0.0.jar
+    enabled: false
   - source:
       type: url
       url: https://raw.githubusercontent.com/expeehaa/mmi/master/README.adoc

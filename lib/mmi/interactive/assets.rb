@@ -13,13 +13,13 @@ module Mmi
 					@processor.assets.items.map do |asset|
 						case asset.source
 							when Mmi::Source::Modrinth
-								[asset.source.display_name, asset.source.version, asset.source.version_file]
+								[enabled_to_symbol(asset.enabled), asset.source.display_name, asset.source.version, asset.source.version_file]
 							when Mmi::Source::Github
-								[asset.source.display_name, *(asset.source.asset_id.nil? ? [asset.source.release, asset.source.file] : asset.source.asset_id)]
+								[enabled_to_symbol(asset.enabled), asset.source.display_name, *(asset.source.asset_id.nil? ? [asset.source.release, asset.source.file] : asset.source.asset_id)]
 							when Mmi::Source::Url
-								[asset.source.display_name]
+								[enabled_to_symbol(asset.enabled), asset.source.display_name]
 							else
-								[asset.source.display_name]
+								[enabled_to_symbol(asset.enabled), asset.source.display_name]
 						end
 					end
 				end
@@ -28,9 +28,14 @@ module Mmi
 					10  => ['Update selected asset.', ->    { update_asset_source_version(@processor.assets.items[it].source) }],
 					'a' => ['Add new asset.',         ->(_) { add_asset                                                       }],
 					'd' => ['Delete selected asset.', ->    { delete_asset(it)                                                }],
+					'x' => ['Enable/disable asset.',  ->    { toggle_enabled(it)                                              }],
 				}
 				
 				Mmi::Curses::Utils.show_table_window!(row_proc, keybindings)
+			end
+			
+			def enabled_to_symbol(enabled)
+				enabled ? '✔' : '-'
 			end
 			
 			def add_asset
@@ -187,6 +192,11 @@ module Mmi
 			
 			def delete_asset(index)
 				@processor.assets['items'].delete_at(index)
+				@processor.assets.parse!
+			end
+			
+			def toggle_enabled(index)
+				@processor.assets['items'][index]['enabled'] = !@processor.assets.items[index].enabled
 				@processor.assets.parse!
 			end
 		end
