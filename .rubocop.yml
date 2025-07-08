@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 plugins:
 - 'rubocop-rspec'
 
@@ -202,6 +200,9 @@ Style/AccessorGrouping:
 Style/BarePercentLiterals:
   Enabled: true
   EnforcedStyle: percent_q
+
+Style/Documentation:
+  Enabled: false
 
 Style/EmptyBlockParameter:
   Enabled: false
