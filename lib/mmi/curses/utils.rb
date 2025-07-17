@@ -65,8 +65,8 @@ module Mmi
 				
 				window.box('|', '-')
 				lines.each.with_index do |line, index|
-					window.setpos(1+index, 2)
-					window.addstr(line)
+					window.setpos(1+index, 1)
+					window.addstr(" #{line.ljust(width-3)} ")
 				end
 				
 				window.refresh
@@ -94,8 +94,10 @@ module Mmi
 				
 				loop do
 					window.box('|', '-')
-					window.setpos(1, 2)
-					window.addstr(prompt)
+					window.setpos(1, 1)
+					window.addstr(" #{prompt.ljust(width-3)}")
+					window.setpos(2, 1)
+					window.addstr(''.ljust(width-2))
 					
 					pos_start = current_index - (max_rows/2.0).floor
 					pos_end   = current_index + (max_rows/2.0).ceil
@@ -109,14 +111,9 @@ module Mmi
 					end
 					
 					options[pos_start...pos_end].each_with_index do |(text, _), index|
-						window.setpos(3 + index, 2)
+						window.setpos(3 + index, 1)
 						window.attron(::Curses.color_pair(current_index == pos_start+index ? 1 : 0)) do
-							window.addstr(text)
-						end
-						
-						additional_whitespace = width - 4 - text.length
-						if additional_whitespace > 0
-							window.addstr(' ' * additional_whitespace)
+							window.addstr(" #{text.ljust(width-3)}")
 						end
 					end
 					
@@ -164,19 +161,20 @@ module Mmi
 				
 				loop do
 					window.box('|', '-')
-					window.setpos(1, 2)
-					window.addstr(prompt)
+					window.setpos(1, 1)
+					window.addstr(" #{prompt} ")
 					
-					window.setpos(3, 2)
+					window.setpos(2, 1)
+					window.addstr(''.ljust(width - 2))
+					
+					window.setpos(3, text_display_length + 2)
+					window.addstr(''.ljust(width - text_display_length - 3))
+					window.setpos(3, 1)
+					window.addstr(' ')
+					
 					window.attron(::Curses.color_pair(2)) do
 						if typed_text.length <= text_display_length
-							window.addstr(typed_text)
-							
-							additional_whitespace = text_display_length - typed_text.length
-							if additional_whitespace > 0
-								window.addstr(' ' * additional_whitespace)
-							end
-							
+							window.addstr(typed_text.ljust(text_display_length))
 							window.setpos(3, 2+cursor_position_in_text)
 						else
 							pos_start = cursor_position_in_text - (text_display_length/2.0).floor
@@ -194,6 +192,7 @@ module Mmi
 							window.setpos(3, 2+(cursor_position_in_text-pos_start))
 						end
 					end
+					
 					
 					window.refresh
 					
