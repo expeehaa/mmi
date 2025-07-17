@@ -63,7 +63,7 @@ module Mmi
 				window = self.main_window.subwin(height, width, (self.main_window.maxy-height)/2, (self.main_window.maxx-width)/2)
 				window.keypad true
 				
-				window.box('|', '-')
+				window.box
 				lines.each.with_index do |line, index|
 					window.setpos(1+index, 1)
 					window.addstr(" #{line.ljust(width-3)} ")
@@ -93,7 +93,7 @@ module Mmi
 				}
 				
 				loop do
-					window.box('|', '-')
+					window.box
 					window.setpos(1, 1)
 					window.addstr(" #{prompt.ljust(width-3)}")
 					window.setpos(2, 1)
@@ -160,7 +160,7 @@ module Mmi
 				}
 				
 				loop do
-					window.box('|', '-')
+					window.box
 					window.setpos(1, 1)
 					window.addstr(" #{prompt} ")
 					
@@ -245,7 +245,7 @@ module Mmi
 				}.merge(keybindings)
 				
 				loop do
-					window.box('|', '-')
+					window.box
 					
 					if rows.is_a?(Proc)
 						rows.call.then do |generated_rows|
