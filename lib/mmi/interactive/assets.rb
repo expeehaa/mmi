@@ -164,7 +164,11 @@ module Mmi
 								version_file = mod_version['files'].map do |file|
 									[file['filename'], file]
 								end.then do |options|
-									Mmi::Curses::Utils.prompt_choice('Choose a version file.', options)
+									if options.size == 1
+										options.first[1]
+									else
+										Mmi::Curses::Utils.prompt_choice('Choose a version file.', options)
+									end
 								end
 								
 								source.update_properties!({
